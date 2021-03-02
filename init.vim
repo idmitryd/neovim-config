@@ -25,8 +25,18 @@ Plug 'vim-airline/vim-airline'
 
 Plug 'vim-airline/vim-airline-themes'
 
-Plug 'preservim/nerdtree'
+" Plug 'preservim/nerdtree'
+
+Plug 'preservim/nerdcommenter'
+
+Plug 'justmao945/vim-clang'
+
+Plug 'Yggdroot/indentLine'
+
 call plug#end()
+
+set splitbelow
+set splitright
 
 " Highlight struct/class member variables (affects both C and C++ files)
 let g:cpp_member_highlight = 1
@@ -35,9 +45,30 @@ let g:cpp_member_highlight = 1
 " (affects both C and C++ files)
 let g:cpp_simple_highlight = 1
 
+" For usage of vim-clang with cmake
+let g:clang_compilation_database = './build'
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+let g:indentLine_char = '⎸'
+let g:indentLine_enabled = 1
+
+tnoremap <Esc> <C-\><C-n>
+noremap <C-l> <C-w>l
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+
 syntax on
 colorscheme onedark
 set number
 set relativenumber
+
+set colorcolumn=80
+highlight ColorColumn ctermbg=darkgray
 
 filetype plugin on
