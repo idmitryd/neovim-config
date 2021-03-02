@@ -68,7 +68,9 @@ colorscheme onedark
 set number
 set relativenumber
 
-set colorcolumn=80
+" set colorcolumn=80
+" highlight ColorColumn ctermbg=darkgray
 highlight ColorColumn ctermbg=darkgray
+call matchadd('ColorColumn', '\%81v.', 100)
 
 filetype plugin on
