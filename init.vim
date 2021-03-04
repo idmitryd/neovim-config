@@ -38,6 +38,8 @@ call plug#end()
 set splitbelow
 set splitright
 
+let g:airline#extensions#tabline#enabled = 1
+
 " Highlight struct/class member variables (affects both C and C++ files)
 let g:cpp_member_highlight = 1
 
