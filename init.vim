@@ -10,8 +10,6 @@ Plug 'preservim/nerdtree'
 
 Plug 'preservim/nerdcommenter'
 
-Plug 'justmao945/vim-clang'
-
 Plug 'Yggdroot/indentLine'
 
 call plug#end()
@@ -27,9 +25,6 @@ let g:cpp_member_highlight = 1
 " Put all standard C and C++ keywords under Vim's highlight group 'Statement'
 " (affects both C and C++ files)
 let g:cpp_simple_highlight = 1
-
-" For usage of vim-clang with cmake
-let g:clang_compilation_database = './build'
 
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
