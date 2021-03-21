@@ -12,6 +12,8 @@ Plug 'preservim/nerdcommenter'
 
 Plug 'Yggdroot/indentLine'
 
+Plug 'lervag/vimtex'
+
 call plug#end()
 
 set splitbelow
