@@ -55,4 +55,9 @@ colorscheme gruvbox
 set number
 " set relativenumber
 
+set completeopt=menuone,longest,preview
+
+set wildmenu
+set wildmode=longest:full,full
+
 filetype plugin on
