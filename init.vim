@@ -14,6 +14,8 @@ Plug 'Yggdroot/indentLine'
 
 Plug 'lervag/vimtex'
 
+Plug 'machakann/vim-sandwich'
+
 call plug#end()
 
 set splitbelow
@@ -42,6 +44,9 @@ noremap <C-l> <C-w>l
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
+
+" Expand path to active files by pressing '%%'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 highlight ColorColumn ctermbg=darkgray
 call matchadd('ColorColumn', '\%81v.', 100)
