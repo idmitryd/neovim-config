@@ -16,6 +16,8 @@ Plug 'lervag/vimtex'
 
 Plug 'machakann/vim-sandwich'
 
+Plug 'ntpeters/vim-better-whitespace'
+
 call plug#end()
 
 set splitbelow
