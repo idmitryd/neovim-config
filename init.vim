@@ -11,14 +11,15 @@ let g:NERDSpaceDelims = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
 
-Plug 'vim-airline/vim-airline'
-let g:airline#extensions#tabline#enabled = 1
+Plug 'hoob3rt/lualine.nvim'
+Plug 'akinsho/nvim-bufferline.lua'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'ryanoasis/vim-devicons'
 
 Plug 'sainnhe/gruvbox-material'
 set termguicolors
 let g:gruvbox_material_palette='mix'
 set background=dark
-let g:airline_theme ='gruvbox_material'
 let g:gruvbox_material_background='medium'
 let g:gruvbox_material_enable_bold=1
 let g:gruvbox_material_enable_italic=1
@@ -36,10 +37,25 @@ let g:vimtex_syntax_conceal_default = 0
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/trouble.nvim'
 
 call plug#end()
+
+lua << EOF
+require('lualine').setup{
+	options = {
+		icons_enabled=true,
+		theme='gruvbox_material',
+		section_separators='',
+		component_separators='',
+	}
+}
+require("bufferline").setup{
+	--options = {
+	--	show_buffer_icons=false,
+	--}
+}
+EOF
 
 " LSP things
 lua << EOF
@@ -117,13 +133,6 @@ cnoremap <F3> <C-^>
 
 set splitbelow
 set splitright
-
-" Highlight struct/class member variables (affects both C and C++ files)
-" let g:cpp_member_highlight = 1
-
-" " Put all standard C and C++ keywords under Vim's highlight group 'Statement'
-" " (affects both C and C++ files)
-" let g:cpp_simple_highlight = 1
 
 tnoremap <Esc> <C-\><C-n>
 noremap <C-l> <C-w>l
