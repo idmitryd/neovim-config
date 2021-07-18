@@ -1,32 +1,20 @@
 call plug#begin()
 
-Plug 'sheerun/vim-polyglot'
 Plug 'machakann/vim-sandwich'
 Plug 'ntpeters/vim-better-whitespace'
-
-Plug 'preservim/nerdtree'
-Plug 'preservim/nerdcommenter'
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
 
 Plug 'hoob3rt/lualine.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'sainnhe/gruvbox-material'
 set termguicolors
 let g:gruvbox_material_palette='mix'
-set background=dark
 let g:gruvbox_material_background='medium'
 let g:gruvbox_material_enable_bold=1
 let g:gruvbox_material_enable_italic=1
-
-Plug 'Yggdroot/indentLine'
-let g:indentLine_char = '⎸'
-let g:indentLine_enabled = 1
 
 Plug 'lervag/vimtex'
 let g:vimtex_view_general_viewer = 'okular'
@@ -38,31 +26,40 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'folke/trouble.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
+Plug 'winston0410/cmd-parser.nvim'
+Plug 'winston0410/range-highlight.nvim'
+Plug 'terrortylor/nvim-comment'
+Plug 'mfussenegger/nvim-dap'
+
+Plug 'lukas-reineke/indent-blankline.nvim'
+let g:indent_blankline_char = '▏'
+let g:indent_blankline_show_first_indent_level = v:false
 
 call plug#end()
 
+nnoremap <Space> <Nop>
+let mapleader = "\<Space>"
+
 lua << EOF
+require('nvim_comment').setup{}
+
 require('lualine').setup{
 	options = {
 		icons_enabled=true,
 		theme='gruvbox_material',
-		section_separators='',
-		component_separators='',
+        --section_separators='',
+        component_separators='',
 	}
 }
-require("bufferline").setup{
-	--options = {
-	--	show_buffer_icons=false,
-	--}
-}
-EOF
+require('bufferline').setup{}
+require('range-highlight').setup{}
 
-" LSP things
-lua << EOF
 local nvim_lsp = require('lspconfig')
-vim.lsp.set_log_level("debug")
-require'lspinstall'.setup() -- important
-
+require('lspinstall').setup{}
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -73,57 +70,99 @@ local on_attach = function(client, bufnr)
   --Enable completion triggered by <c-x><c-o>
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  -- Mappings.
-  --local opts = { noremap=true, silent=true }
+  -- mappings.
+  local opts = { noremap=true, silent=true }
 
-  ---- See `:help vim.lsp.*` for documentation on any of the below functions
-  --buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  --buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  --buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  --buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
   --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  --buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-  --buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  --buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  --buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  --buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  --buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  --buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  --buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  --buf_set_keymap('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  --buf_set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  --buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  --buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  --buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   --buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  --buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  --buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  --buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 end
 
-local servers = require'lspinstall'.installed_servers()
+local servers = require('lspinstall').installed_servers()
 for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{}
+    nvim_lsp[server].setup{
+        on_attach = on_attach,
+        flags = {
+            debounce_text_changes = 150,
+        }
+    }
 end
-require'lspconfig'.clangd.setup{
-	cmd = {"clangd-10", "--background-index"}
+nvim_lsp.clangd.setup{
+    on_attach = on_attach,
+	cmd = {"clangd-10", "--background-index"},
+    flags = {
+        debounce_text_changes = 150,
+    }
 }
 
-require("trouble").setup {
+require('trouble').setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
 }
-EOF
-" Need to overwrite behaviour from /usr/local/share/nvim/runtime/ftplugin/c.vim
-autocmd FileType c,cpp,python set omnifunc=v:lua.vim.lsp.omnifunc
 
-" TreeSitter things
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-	ensure_installed = { "bash", "fish", "latex", "cpp", "python", "cmake", "bibtex" }, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  -- ignore_install = { "javascript" }, -- List of parsers to ignore installing
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
+require('nvim-treesitter.configs').setup {
+	ensure_installed = { "bash", "fish", "latex", "cpp", "python",
+                        "cmake", "bibtex", "yaml", "lua" },
+	highlight = {
+	enable = true,
+  },
+}
+
+--/usr/bin/lldb
+local dap = require('dap')
+dap.adapters.lldb = {
+  type = 'executable',
+  command = '/usr/bin/lldb', -- adjust as needed
+  name = "lldb"
+}
+dap.configurations.cpp = {
+  {
+    name = "Launch",
+    type = "lldb",
+    request = "launch",
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    stopOnEntry = true,
+    args = {'1'},
+
+    -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
+    --
+    --    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+    --
+    -- Otherwise you might get the following error:
+    --
+    --    Error on launch: Failed to attach to the target process
+    --
+    -- But you should be aware of the implications:
+    -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
+    runInTerminal = false,
   },
 }
 EOF
+
+" Change default commentstring=\*%s*\ for cpp files
+au FileType cpp setlocal commentstring=//\ %s
+
+" Need to make nvim to recognize .fish files
+au! BufRead,BufNewFile *.fish set filetype=fish
 
 set keymap=russian-jcukenwin
 set iminsert=0
@@ -147,14 +186,11 @@ highlight ColorColumn ctermbg=darkgray
 call matchadd('ColorColumn', '\%81v.', 100)
 call matchadd('ErrorMsg', '\%101v.', 100)
 
-syntax on
 colorscheme gruvbox-material
 set number
-" set relativenumber
 
-set completeopt=menuone,longest,preview
-
+" set completeopt=menuone,longest,preview
+set completeopt=menuone,preview,noinsert,noselect
 set wildmenu
 set wildmode=longest:full,full
-
-filetype plugin on
+" 'v:lua.vim.lsp.omnifunc')
