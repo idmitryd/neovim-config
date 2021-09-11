@@ -34,12 +34,16 @@ Plug 'winston0410/cmd-parser.nvim'
 Plug 'winston0410/range-highlight.nvim'
 Plug 'terrortylor/nvim-comment'
 Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
 
 Plug 'lukas-reineke/indent-blankline.nvim'
 let g:indent_blankline_char = '▏'
 let g:indent_blankline_show_first_indent_level = v:false
 
 call plug#end()
+
+inoremap jk <Esc>
+inoremap kj <Esc>
 
 nnoremap <Space> <Nop>
 let mapleader = "\<Space>"
@@ -124,13 +128,13 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
---/usr/bin/lldb
 local dap = require('dap')
 dap.adapters.lldb = {
   type = 'executable',
-  command = '/usr/bin/lldb', -- adjust as needed
+  command = '/usr/bin/lldb-vscode-10', -- adjust as needed
   name = "lldb"
 }
+
 dap.configurations.cpp = {
   {
     name = "Launch",
@@ -141,7 +145,7 @@ dap.configurations.cpp = {
     end,
     cwd = '${workspaceFolder}',
     stopOnEntry = true,
-    args = {'1'},
+    args = {},
 
     -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
     --
@@ -154,9 +158,64 @@ dap.configurations.cpp = {
     -- But you should be aware of the implications:
     -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
     runInTerminal = false,
+    env = function()
+      local variables = {}
+      for k, v in pairs(vim.fn.environ()) do
+        table.insert(variables, string.format("%s=%s", k, v))
+      end
+      return variables
+    end,
   },
 }
+
+require("dapui").setup({
+  icons = {
+    expanded = "▾",
+    collapsed = "▸"
+  },
+  mappings = {
+    -- Use a table to apply multiple mappings
+    expand = {"<CR>", "<2-LeftMouse>"},
+    open = "o",
+    remove = "d",
+    edit = "e",
+  },
+  sidebar = {
+    open_on_start = true,
+    elements = {
+      -- You can change the order of elements in the sidebar
+      "scopes",
+      "breakpoints",
+      "stacks",
+      "watches"
+    },
+    width = 40,
+    position = "left" -- Can be "left" or "right"
+  },
+  tray = {
+    open_on_start = true,
+    elements = {
+      "repl"
+    },
+    height = 10,
+    position = "bottom" -- Can be "bottom" or "top"
+  },
+  floating = {
+    max_height = nil, -- These can be integers or a float between 0 and 1.
+    max_width = nil   -- Floats will be treated as percentage of your screen.
+  }
+})
 EOF
+
+nnoremap <silent> <F5> :lua require'dap'.continue()<CR>
+nnoremap <silent> <F10> :lua require'dap'.step_over()<CR>
+nnoremap <silent> <F11> :lua require'dap'.step_into()<CR>
+nnoremap <silent> <F12> :lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>b :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>B :lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>lp :lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
 
 " Change default commentstring=\*%s*\ for cpp files
 au FileType cpp setlocal commentstring=//\ %s
