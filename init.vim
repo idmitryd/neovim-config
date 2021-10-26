@@ -1,7 +1,10 @@
 call plug#begin()
 
-Plug 'machakann/vim-sandwich'
+" Plug 'machakann/vim-sandwich'
+Plug 'blackcauldron7/surround.nvim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'famiu/bufdelete.nvim'
+" Plug 'ggandor/lightspeed.nvim'
 
 Plug 'hoob3rt/lualine.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
@@ -20,7 +23,8 @@ Plug 'lervag/vimtex'
 let g:vimtex_view_general_viewer = 'okular'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_view_general_options_latexmk = '--unique'
-let g:vimtex_syntax_conceal_default = 0
+let g:vimtex_syntax_conceal_disable = 1
+let g:vimtex_quickfix_enabled = 0
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
@@ -35,6 +39,7 @@ Plug 'winston0410/range-highlight.nvim'
 Plug 'terrortylor/nvim-comment'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+Plug 'karb94/neoscroll.nvim'
 
 Plug 'lukas-reineke/indent-blankline.nvim'
 let g:indent_blankline_char = '▏'
@@ -47,20 +52,41 @@ inoremap kj <Esc>
 
 nnoremap <Space> <Nop>
 let mapleader = "\<Space>"
+nnoremap \\ <Nop>
+let maplocalleader = "\\"
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+nnoremap <leader>ft <cmd>Telescope treesitter<cr>
 
 lua << EOF
+require('surround').setup{}
 require('nvim_comment').setup{}
 
 require('lualine').setup{
 	options = {
 		icons_enabled=true,
-		theme='gruvbox_material',
+		theme='gruvbox-material',
         --section_separators='',
         component_separators='',
 	}
 }
 require('bufferline').setup{}
 require('range-highlight').setup{}
+require('neoscroll').setup({
+    -- All these keys will be mapped to their corresponding default scrolling animation
+    mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
+                '<C-y>', '<C-e>'},--, 'zt', 'zz', 'zb'},
+    hide_cursor = true,          -- Hide cursor while scrolling
+    stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+    use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+    respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+    cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+    easing_function = nil,        -- Default easing function
+    pre_hook = nil,              -- Function to run before the scrolling animation starts
+    post_hook = nil,              -- Function to run after the scrolling animation ends
+})
 
 local nvim_lsp = require('lspconfig')
 require('lspinstall').setup{}
@@ -83,14 +109,14 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap("n", "<Leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  --buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap("n", "<LocalLeader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   --buf_set_keymap('n', '<Leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   --buf_set_keymap('n', '<Leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   --buf_set_keymap('n', '<Leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   --buf_set_keymap('n', '<Leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  --buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  --buf_set_keymap('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<LocalLeader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<LocalLeader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   --buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   --buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   --buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -103,30 +129,85 @@ for _, server in pairs(servers) do
         on_attach = on_attach,
         flags = {
             debounce_text_changes = 150,
-        }
+        },
+        handlers = {
+           ["textDocument/publishDiagnostics"] = vim.lsp.with(
+             vim.lsp.diagnostic.on_publish_diagnostics, {
+               -- Disable virtual_text
+               virtual_text = false
+             }
+           ),
+        },
     }
 end
 nvim_lsp.clangd.setup{
     on_attach = on_attach,
-	cmd = {"clangd-10", "--background-index"},
+    cmd = {"clangd-10", "--background-index", "--fallback-style=google"},
     flags = {
         debounce_text_changes = 150,
-    }
+    },
+    handlers = {
+       ["textDocument/publishDiagnostics"] = vim.lsp.with(
+         vim.lsp.diagnostic.on_publish_diagnostics, {
+           -- Disable virtual_text
+           virtual_text = false
+         }
+       ),
+     },
 }
 
 require('trouble').setup {
+    height = 8,
+    auto_preview = false,
+    auto_fold = true,
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
 }
+vim.api.nvim_set_keymap("n", "<leader>tt", "<cmd>Trouble<cr>",
+  {silent = true, noremap = true}
+)
+-- vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble lsp_workspace_diagnostics<cr>",
+--   {silent = true, noremap = true}
+-- )
+-- vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>",
+--   {silent = true, noremap = true}
+-- )
+-- vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
+--   {silent = true, noremap = true}
+-- )
+-- vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
+--   {silent = true, noremap = true}
+-- )
+-- vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
+--   {silent = true, noremap = true}
+-- )
 
 require('nvim-treesitter.configs').setup {
 	ensure_installed = { "bash", "fish", "latex", "cpp", "python",
                         "cmake", "bibtex", "yaml", "lua" },
 	highlight = {
-	enable = true,
-  },
+        enable = true,
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "gnn",
+          node_incremental = "grn",
+          scope_incremental = "grc",
+          node_decremental = "grm",
+        },
+    },
+    indent = {
+        enable = true,
+    },
 }
+vim.api.nvim_exec([[
+    set foldmethod=expr
+    set foldexpr=nvim_treesitter#foldexpr()
+    set foldminlines=5
+    set foldnestmax=3
+]], true)
 
 local dap = require('dap')
 dap.adapters.lldb = {
@@ -181,7 +262,6 @@ require("dapui").setup({
     edit = "e",
   },
   sidebar = {
-    open_on_start = true,
     elements = {
       -- You can change the order of elements in the sidebar
       "scopes",
@@ -189,15 +269,14 @@ require("dapui").setup({
       "stacks",
       "watches"
     },
-    width = 40,
+    size = 40,
     position = "left" -- Can be "left" or "right"
   },
   tray = {
-    open_on_start = true,
     elements = {
       "repl"
     },
-    height = 10,
+    size = 10,
     position = "bottom" -- Can be "bottom" or "top"
   },
   floating = {
@@ -219,6 +298,14 @@ nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
 
 " Change default commentstring=\*%s*\ for cpp files
 au FileType cpp setlocal commentstring=//\ %s
+au FileType c setlocal tabstop=2
+au FileType c setlocal shiftwidth=2
+au FileType c setlocal expandtab
+au FileType tex setlocal tabstop=2
+au FileType tex setlocal shiftwidth=2
+au FileType tex setlocal expandtab
+au FileType tex setlocal spelllang=en_us,ru_ru
+au FileType tex setlocal spell
 
 " Need to make nvim to recognize .fish files
 au! BufRead,BufNewFile *.fish set filetype=fish
