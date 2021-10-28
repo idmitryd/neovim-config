@@ -202,12 +202,12 @@ require('nvim-treesitter.configs').setup {
         enable = true,
     },
 }
-vim.api.nvim_exec([[
-    set foldmethod=expr
-    set foldexpr=nvim_treesitter#foldexpr()
-    set foldminlines=5
-    set foldnestmax=3
-]], true)
+-- vim.api.nvim_exec([[
+--     set foldmethod=expr
+--     set foldexpr=nvim_treesitter#foldexpr()
+--     set foldminlines=5
+--     set foldnestmax=3
+-- ]], true)
 
 local dap = require('dap')
 dap.adapters.lldb = {
