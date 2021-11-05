@@ -1,3 +1,4 @@
 setlocal shiftwidth=2
 setlocal tabstop=2
-set expandtab
+setlocal expandtab
+setlocal commentstring=//\ %s

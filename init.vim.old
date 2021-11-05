@@ -1,13 +1,12 @@
 call plug#begin()
 
-" Plug 'machakann/vim-sandwich'
 Plug 'blackcauldron7/surround.nvim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'famiu/bufdelete.nvim'
-" Plug 'ggandor/lightspeed.nvim'
 
 Plug 'hoob3rt/lualine.nvim'
 Plug 'akinsho/nvim-bufferline.lua'
+
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
@@ -33,13 +32,19 @@ Plug 'folke/trouble.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-dap.nvim'
 Plug 'tversteeg/registers.nvim', { 'branch': 'main' }
+
 Plug 'winston0410/cmd-parser.nvim'
 Plug 'winston0410/range-highlight.nvim'
+
 Plug 'terrortylor/nvim-comment'
 Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
+
 Plug 'karb94/neoscroll.nvim'
+
+Plug 'phaazon/hop.nvim'
 
 Plug 'lukas-reineke/indent-blankline.nvim'
 let g:indent_blankline_char = '▏'
@@ -61,8 +66,11 @@ nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 nnoremap <leader>ft <cmd>Telescope treesitter<cr>
 
 lua << EOF
+require('hop').setup()
 require('surround').setup{}
-require('nvim_comment').setup{}
+require('nvim_comment').setup({comment_empty = false})
+
+require('telescope').load_extension('dap')
 
 require('lualine').setup{
 	options = {
@@ -297,15 +305,21 @@ nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
 nnoremap <silent> <leader>dl :lua require'dap'.run_last()<CR>
 
 " Change default commentstring=\*%s*\ for cpp files
-au FileType cpp setlocal commentstring=//\ %s
-au FileType c setlocal tabstop=2
-au FileType c setlocal shiftwidth=2
-au FileType c setlocal expandtab
-au FileType tex setlocal tabstop=2
-au FileType tex setlocal shiftwidth=2
-au FileType tex setlocal expandtab
-au FileType tex setlocal spelllang=en_us,ru_ru
-au FileType tex setlocal spell
+" au FileType cpp setlocal commentstring=//\ %s
+
+" au FileType c setlocal tabstop=2
+" au FileType c setlocal shiftwidth=2
+" au FileType c setlocal expandtab
+
+" au FileType lua setlocal tabstop=2
+" au FileType lua setlocal shiftwidth=2
+" au FileType lua setlocal expandtab
+
+" au FileType tex setlocal tabstop=2
+" au FileType tex setlocal shiftwidth=2
+" au FileType tex setlocal expandtab
+" au FileType tex setlocal spelllang=en_us,ru_ru
+" au FileType tex setlocal spell
 
 " Need to make nvim to recognize .fish files
 au! BufRead,BufNewFile *.fish set filetype=fish
@@ -335,8 +349,6 @@ call matchadd('ErrorMsg', '\%101v.', 100)
 colorscheme gruvbox-material
 set number
 
-" set completeopt=menuone,longest,preview
 set completeopt=menuone,preview,noinsert,noselect
 set wildmenu
 set wildmode=longest:full,full
-" 'v:lua.vim.lsp.omnifunc')
