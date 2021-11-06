@@ -10,11 +10,13 @@ vim.cmd('colorscheme gruvbox-material')
 -- Need to make nvim to recognize .fish files
 vim.cmd('au! BufRead,BufNewFile *.fish set filetype=fish')
 
--- global options and variables
+-- Map leaders
 map('n', '<Space>', '', {})
 g.mapleader = ' '
 map('n', '\\', '', {})
 g.maplocalleader = '\\'
+
+-- global options and variables
 
 o.splitbelow = true
 o.splitright = true
