@@ -1,3 +1,3 @@
-require('lua/plugins')
-require('lua/settings')
-require('lua/maps')
+require('plugins')
+require('settings')
+require('maps')
