@@ -56,6 +56,7 @@ require('packer').startup(function()
   use {
     'mfussenegger/nvim-dap',
     requires = 'rcarriga/nvim-dap-ui',
+    ft = 'cpp',
     config = function() require('plugin/dap') end,
   }
 
@@ -123,7 +124,7 @@ require('packer').startup(function()
     config = function() require('plugin/surround') end,
   }
 
-  -- Better whirespace
+  -- Better whitespace
   use 'ntpeters/vim-better-whitespace'
 
   -- Better buffers delete

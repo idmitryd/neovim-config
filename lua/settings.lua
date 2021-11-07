@@ -12,6 +12,7 @@ vim.cmd('au! BufRead,BufNewFile *.fish set filetype=fish')
 
 -- Map leaders
 map('n', '<Space>', '', {})
+map('o', '<Space>', '', {})
 g.mapleader = ' '
 map('n', '\\', '', {})
 g.maplocalleader = '\\'
