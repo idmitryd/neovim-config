@@ -40,7 +40,7 @@ local function make_config()
       debounce_text_changes = 150,
     },
     handlers = {
-       ["textDocument/publishDiagnostics"] = vim.lsp.with(
+       ['textDocument/publishDiagnostics'] = vim.lsp.with(
          vim.lsp.diagnostic.on_publish_diagnostics, {
            -- Disable virtual_text
            virtual_text = false
@@ -51,24 +51,11 @@ local function make_config()
 end
 local servers = require('lspinstall').installed_servers()
 for _, server in pairs(servers) do
-    local config = make_config()
-    if server == 'cpp' then
-      config.cmd = {"clangd", "--background-index", "--fallback-style=google"}
-    end
-    nvim_lsp[server].setup{config}
+  local config = make_config()
+  if server == 'cpp' then
+    config.filetypes = { 'c', 'cpp' }
+    config.cmd = require'lspinstall/servers'.cpp.default_config.cmd
+    table.insert(config.cmd, '--fallback-style=google')
+  end
+  nvim_lsp[server].setup(config)
 end
--- nvim_lsp.clangd.setup{
---     on_attach = on_attach,
---     cmd = {"clangd-10", "--background-index", "--fallback-style=google"},
---     flags = {
---         debounce_text_changes = 150,
---     },
---     handlers = {
---        ["textDocument/publishDiagnostics"] = vim.lsp.with(
---          vim.lsp.diagnostic.on_publish_diagnostics, {
---            -- Disable virtual_text
---            virtual_text = false
---          }
---        ),
---      },
--- }
