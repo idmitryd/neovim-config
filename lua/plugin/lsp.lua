@@ -33,28 +33,11 @@ local on_attach = function(client, bufnr)
   --buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 end
 
-local servers = require('lspinstall').installed_servers()
-for _, server in pairs(servers) do
-    nvim_lsp[server].setup{
-        on_attach = on_attach,
-        flags = {
-            debounce_text_changes = 150,
-        },
-        handlers = {
-           ["textDocument/publishDiagnostics"] = vim.lsp.with(
-             vim.lsp.diagnostic.on_publish_diagnostics, {
-               -- Disable virtual_text
-               virtual_text = false
-             }
-           ),
-        },
-    }
-end
-nvim_lsp.clangd.setup{
+local function make_config()
+  return {
     on_attach = on_attach,
-    cmd = {"clangd-10", "--background-index", "--fallback-style=google"},
     flags = {
-        debounce_text_changes = 150,
+      debounce_text_changes = 150,
     },
     handlers = {
        ["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -63,5 +46,29 @@ nvim_lsp.clangd.setup{
            virtual_text = false
          }
        ),
-     },
-}
+    },
+  }
+end
+local servers = require('lspinstall').installed_servers()
+for _, server in pairs(servers) do
+    local config = make_config()
+    if server == 'cpp' then
+      config.cmd = {"clangd", "--background-index", "--fallback-style=google"}
+    end
+    nvim_lsp[server].setup{config}
+end
+-- nvim_lsp.clangd.setup{
+--     on_attach = on_attach,
+--     cmd = {"clangd-10", "--background-index", "--fallback-style=google"},
+--     flags = {
+--         debounce_text_changes = 150,
+--     },
+--     handlers = {
+--        ["textDocument/publishDiagnostics"] = vim.lsp.with(
+--          vim.lsp.diagnostic.on_publish_diagnostics, {
+--            -- Disable virtual_text
+--            virtual_text = false
+--          }
+--        ),
+--      },
+-- }

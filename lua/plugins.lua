@@ -21,10 +21,18 @@ require('packer').startup(function()
   use 'wbthomason/packer.nvim'
 
   -- LSP
-  use 'kabouzeid/nvim-lspinstall'
   use {
     'neovim/nvim-lspconfig',
+    requires = 'kabouzeid/nvim-lspinstall',
     config = function() require('plugin/lsp') end,
+    run = function()
+            require'lspinstall'.install_server('cpp')
+            require'lspinstall'.install_server('python')
+            require'lspinstall'.install_server('cmake')
+            require'lspinstall'.install_server('latex')
+            require'lspinstall'.install_server('lua')
+            require'lspinstall'.install_server('vim')
+          end,
   }
 
   -- Tree-sitter
@@ -45,19 +53,19 @@ require('packer').startup(function()
     config = function() require('plugin/trouble') end,
   }
 
-  -- Telescope
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = 'nvim-telescope/telescope-dap.nvim',
-    config = function() require('plugin/telescope') end,
-  }
-
   -- Debug
   use {
     'mfussenegger/nvim-dap',
     requires = 'rcarriga/nvim-dap-ui',
     ft = 'cpp',
     config = function() require('plugin/dap') end,
+  }
+
+  -- Telescope
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = 'nvim-telescope/telescope-dap.nvim',
+    config = function() require('plugin/telescope') end,
   }
 
   -- Registers
@@ -88,6 +96,7 @@ require('packer').startup(function()
   -- Movement
   use {
     'phaazon/hop.nvim',
+    tag = 'v1.0.5',
     config = function() require('plugin/hop') end,
   }
 
