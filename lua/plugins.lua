@@ -57,7 +57,7 @@ require('packer').startup(function()
   use {
     'mfussenegger/nvim-dap',
     requires = 'rcarriga/nvim-dap-ui',
-    ft = 'cpp',
+    -- ft = 'cpp',
     config = function() require('plugin/dap') end,
   }
 

@@ -1,3 +1,4 @@
+require('telescope')
 require('telescope').load_extension('dap')
 local map = vim.api.nvim_set_keymap
 local options = { noremap = true }
