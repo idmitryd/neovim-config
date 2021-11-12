@@ -96,7 +96,6 @@ require('packer').startup(function()
   -- Movement
   use {
     'phaazon/hop.nvim',
-    tag = 'v1.0.5',
     config = function() require('plugin/hop') end,
   }
 
