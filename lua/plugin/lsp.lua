@@ -48,7 +48,18 @@ local function make_config()
     },
   }
 end
+
 local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.settings({
+    ui = {
+        icons = {
+            server_installed = "✓",
+            server_pending = "➜",
+            server_uninstalled = "✗"
+        }
+    }
+})
+
 for _, server in pairs(lsp_installer.get_installed_servers()) do
   local config = make_config()
   if server.name == 'clangd' then
