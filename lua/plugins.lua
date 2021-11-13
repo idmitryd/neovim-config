@@ -23,16 +23,21 @@ require('packer').startup(function()
   -- LSP
   use {
     'neovim/nvim-lspconfig',
-    requires = 'kabouzeid/nvim-lspinstall',
-    config = function() require('plugin/lsp') end,
+    requires = 'williamboman/nvim-lsp-installer',
     run = function()
-            require'lspinstall'.install_server('cpp')
-            require'lspinstall'.install_server('python')
-            require'lspinstall'.install_server('cmake')
-            require'lspinstall'.install_server('latex')
-            require'lspinstall'.install_server('lua')
-            require'lspinstall'.install_server('vim')
+            local servers_to_install = { 'clangd', 'pyright', 'cmake',
+                                         'texlab', 'sumneko_lua', 'vimls' }
+            local lsp_installer = require'nvim-lsp-installer'
+            for _, server_name in pairs(servers_to_install) do
+              local ok, server = lsp_installer.get_server(server_name)
+              if ok then
+                server:install()
+              else
+                print('Cannot find server ' .. server_name)
+              end
+            end
           end,
+    config = function() require('plugin/lsp') end,
   }
 
   -- Tree-sitter
