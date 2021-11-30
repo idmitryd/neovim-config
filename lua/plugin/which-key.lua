@@ -199,6 +199,7 @@ local mappings = {
         c = { "<cmd>HopChar1<cr>", "One Char"},
         d = { "<cmd>HopChar2<cr>", "Two Chars"},
         p = { "<cmd>HopPattern<cr>", "Pattern"},
+        b = { "<cmd>BufferPick<cr>", "Buffer" },
     },
     d = {
     name = "Debug",

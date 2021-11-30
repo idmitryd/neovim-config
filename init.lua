@@ -256,7 +256,44 @@ require('packer').startup({
             'Murtaza-Udaipurwala/gruvqueen',
             config = function()
                 local c = require("gruvqueen/palette").get_dark_theme_palette().common
+                -- local common = {
+                --     none =             "NONE",
+                --     bg0 =              "#10151a",
+                --     bg1 =              "#282828",
+                --     bg2 =              "#282828",
+                --     bg3 =              "#3c3836",
+                --     bg4 =              "#3c3836",
+                --     bg5 =              "#504945",
+                --     bg_statusline1 =   "#282828",
+                --     bg_statusline2 =   "#32302f",
+                --     bg_statusline3 =   "#504945",
+                --     bg_diff_green =    "#32361a",
+                --     bg_visual_green =  "#333e34",
+                --     bg_diff_red =      "#3c1f1e",
+                --     bg_visual_red =    "#442e2d",
+                --     bg_diff_blue =     "#0d3138",
+                --     bg_visual_blue =   "#2e3b3b",
+                --     bg_visual_yellow = "#473c29",
+                --     bg_current_word =  "#32302f",
+                --     grey0 =            "#7c6f64",
+                --     grey1 =            "#928374",
+                --     grey2 =            "#a89984",
+                -- }
                 local mix = require("gruvqueen/palette").get_dark_theme_palette().mix
+                -- local mix = {
+                --     fg0 =       "#e2cca9",
+                --     fg1 =       "#e2cca9",
+                --     red =       "#f2594b",
+                --     orange =    "#f28534",
+                --     yellow =    "#e9b143",
+                --     green =     "#b0b846",
+                --     aqua =      "#8bba7f",
+                --     blue =      "#80aa9e",
+                --     purple =    "#d3869b",
+                --     bg_red =    "#db4740",
+                --     bg_green =  "#b0b846",
+                --     bg_yellow = "#e9b143",
+                -- }
                 require("gruvqueen").setup({
                     config = {
                         disable_bold = false,
@@ -265,39 +302,74 @@ require('packer').startup({
                         invert_selection = false,
                     },
                     base = {
-                        LineNr = {fg = c.grey0,}, -- #7c6f64
-                        ColorColumn = { bg = c.bg_statusline2 }, -- #32302f
-                        CursorLine = { bg = c.bg_statusline2 }, -- #32302f
-                        StatusLine = { fg = "#e2cca9", bg = c.bg_statusline2 },
-                        SignColumn = { fg = "#e2cca9", bg = "#32302f", },
-                        PMenu = { fg = "#e2cca9", bg = "#45403d" },
-                        -- CursorLineNr = {fg = mix.purple, },
-                    },
-                    lsp = {
-                        LspDiagnosticsDefaultError = {fg = mix.red, bg = c.bg_visual_red, style = "undercurl", },
-                        LspDiagnosticsDefaultWarning = {fg = mix.yellow, bg = c.bg_visual_yellow, style = "undercurl"},
-                        LspDiagnosticsDefaultInformation = {fg = mix.blue, bg = c.bg_visual_blue, style = "undercurl", },
-                        LspDiagnosticsDefaultHint = {fg = mix.aqua, bg = c.bg_visual_green, style = "undercurl", },
-                        LspDiagnosticsUnderlineHint = {fg = mix.aqua, style = "italic" },
+                        LineNr = { fg = c.grey1, }, -- #928374
+                        ColorColumn = { bg = c.bg_statusline2, }, -- #32302f
+                        CursorLine = { bg = c.bg_statusline2, }, -- #32302f
+                        StatusLine = { fg = "#e2cca9", bg = c.bg_statusline2, },
+                        Pmenu = { fg = "#e2cca9", bg = "#45403d", },
+                        CursorLineNr = { fg = "#e2cca9", },
+                        FloatBorder = { fg = "#928374", bg = "#282828", },
+                        -- NormalFloat = {},
+
+                        -- Diagnostis
+                        DiagnosticError = { fg = mix.red, bg = c.none, },
+                        DiagnosticWarn = { fg = mix.yellow, bg = c.none, },
+                        DiagnosticInfo = { fg = mix.blue, bg = c.none, },
+                        DiagnosticHint = { fg = mix.aqua, bg = c.none, },
+
+                        DiagnosticUnderlineError = {fg = c.none, bg = c.bg_visual_red, style = "undercurl", },
+                        DiagnosticUnderlineWarn = {fg = c.none, bg = c.bg_visual_yellow, style = "undercurl", },
+                        DiagnosticUnderlineInfo = {fg = c.none, bg = c.bg_visual_blue, style = "undercurl", },
+                        DiagnosticUnderlineHint = { fg = mix.aqua, style = "italic" },
+
+                        DiagnosticFloatingError = {fg = c.red, bg = c.bg3, },
+                        DiagnosticFloatingWarn = {fg = c.yellow, bg = c.bg3, },
+                        DiagnosticFloatingInfo = {fg = c.blue, bg = c.bg3, },
+                        DiagnosticFloatingHint = {fg = c.green, bg = c.bg3, },
+
+                        -- DiagnosticVirtualTextError = {fg = c.red, },
+                        -- DiagnosticVirtualTextWarn = {fg = c.yellow, },
+                        -- DiagnosticVirtualTextInfo= {fg = c.blue, },
+                        -- DiagnosticVirtualTextHint = {fg = c.green, },
                     },
                     plugins = {
+                        -- BarBar
                         BufferCurrent = { fg = "#e2cca9", bg = "#5a524c", },
                         BufferCurrentIndex = { fg = "#e2cca9", bg = "#5a524c", },
                         BufferCurrentMod = { fg = "#80aa9e", bg = "#5a524c", },
                         BufferCurrentSign = { fg = "#a89984", bg = "#5a524c"},
-                        BufferCurrentTarget = { fg = "#f2594b", bg = "#5a524c", style = "bold"},
-
+                        BufferCurrentTarget = { fg = "#f2594b", bg = "#5a524c", style = "bold", },
                         BufferVisible = { fg = "#e2cca9", bg = "#45403d", },
                         BufferVisibleIndex = { fg = "#e2cca9", bg = "#45403d", },
                         BufferVisibleMod = { fg = "#80aa9e", bg = "#45403d", },
-                        BufferVisibleSign = { fg = "#a89984", bg = "#45403d"},
-                        BufferVisibleTarget = { fg = "#e9b143", bg = "#45403d", style = "bold"},
-
+                        BufferVisibleSign = { fg = "#a89984", bg = "#45403d", },
+                        BufferVisibleTarget = { fg = "#e9b143", bg = "#45403d", style = "bold", },
                         BufferInactive = { fg = "#928374", bg = "#45403d", },
                         BufferInactiveIndex = { fg = "#928374", bg = "#45403d", },
                         BufferInactiveMod = { fg = "#928374", bg = "#45403d", },
                         BufferInactiveSign = { fg = "#7c6f64", bg = "#45403d"},
                         BufferInactiveTarget = { fg = "#e9b143", bg = "#45403d", style = "bold"},
+
+                        -- dapui
+                        DapUIVariable = { fg = "#e2cca9", bg = "#282828" },
+                        DapUIScope = { fg = "#b0b846", },
+                        DapUIType = { fg = "#e9b143", },
+                        DapUIValue = { fg = "#d3869b", bg = "#282828" },
+                        DapUIModifiedValue = { fg = "#8bba7f", style = "bold", },
+                        DapUIDecoration = { fg = "#b0b846", },
+                        DapUIThread = { fg = "#d3869b", },
+                        DapUIStoppedThread = { fg = "#b0b846", },
+                        DapUIFrameName = { fg = "#e2cca9", bg = "#282828" },
+                        DapUISource = { fg = "#e9b143", },
+                        DapUILineNumber = { fg = "#8bba7f", },
+                        DapUIFloatBorder = { fg = "#504945", },
+                        DapUIWatchesEmpty = { fg = "#f2594b", },
+                        DapUIWatchesValue = { fg = "#d3869b", },
+                        DapUIWatchesError = { fg = "#f2594b", },
+                        DapUIBreakpointsPath = { fg = "#b0b846", },
+                        DapUIBreakpointsInfo = { fg = "#d3869b", },
+                        DapUIBreakpointsCurrentLine = { fg = "#8bba7f", style = "bold", },
+                        DapUIBreakpointsLine = { fg = "#8bba7f", },
                     },
                 })
             end
@@ -570,12 +642,13 @@ require('packer').startup({
         -- }}}3
     end,
     config = {
-    -- {{{3 Packer config
+        -- {{{3 Packer config
         display = {
-            open_fn = require('packer.util').float,
-        }
-    -- }}}3
-    },
+            open_fn = function()
+                return require('packer.util').float({ border = "single" })
+            end        }
+            -- }}}3
+        },
 })
     --- }}}2
 -- }}}
