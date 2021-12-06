@@ -147,6 +147,15 @@ require('packer').startup({
             run = function() require('plugin.lsp').run() end,
             config = function() require('plugin.lsp').setup() end,
         }
+        use {
+            "tami5/lspsaga.nvim",
+            config = function()
+                require('lspsaga').setup()
+                local options = { noremap = true }
+                vim.api.nvim_set_keymap('n', '<C-d>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", options)
+                vim.api.nvim_set_keymap('n', '<C-u>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", options)
+            end,
+        }
         -- }}}3
         -- {{{3 Tree-sitter
         use 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -253,9 +262,10 @@ require('packer').startup({
             end,
         }
         use {
-            'Murtaza-Udaipurwala/gruvqueen',
+            'idmitryd/gruvqueen',
             config = function()
                 local c = require("gruvqueen/palette").get_dark_theme_palette().common
+                c.bg_visual_aqua = "#253a1f"
                 -- local common = {
                 --     none =             "NONE",
                 --     bg0 =              "#10151a",
@@ -274,6 +284,7 @@ require('packer').startup({
                 --     bg_diff_blue =     "#0d3138",
                 --     bg_visual_blue =   "#2e3b3b",
                 --     bg_visual_yellow = "#473c29",
+                --     bg_visual_aqua =   "#253a1f"
                 --     bg_current_word =  "#32302f",
                 --     grey0 =            "#7c6f64",
                 --     grey1 =            "#928374",
@@ -317,10 +328,10 @@ require('packer').startup({
                         DiagnosticInfo = { fg = mix.blue, bg = c.none, },
                         DiagnosticHint = { fg = mix.aqua, bg = c.none, },
 
-                        DiagnosticUnderlineError = {fg = c.none, bg = c.bg_visual_red, style = "undercurl", },
-                        DiagnosticUnderlineWarn = {fg = c.none, bg = c.bg_visual_yellow, style = "undercurl", },
-                        DiagnosticUnderlineInfo = {fg = c.none, bg = c.bg_visual_blue, style = "undercurl", },
-                        DiagnosticUnderlineHint = { fg = mix.aqua, style = "italic" },
+                        DiagnosticUnderlineError = { fg = c.none, bg = c.bg_visual_red, sp=mix.red, style = "undercurl", },
+                        DiagnosticUnderlineWarn = { fg = c.none, bg = c.bg_visual_yellow, sp=mix.yellow, style = "undercurl", },
+                        DiagnosticUnderlineInfo = { fg = c.none, bg = c.bg_visual_blue, sp=mix.blue, style = "undercurl", },
+                        DiagnosticUnderlineHint = { fg = c.none, bg = c.bg_visual_aqua, sp = mix.aqua, style = "undercurl" },
 
                         DiagnosticFloatingError = {fg = c.red, bg = c.bg3, },
                         DiagnosticFloatingWarn = {fg = c.yellow, bg = c.bg3, },
@@ -370,9 +381,36 @@ require('packer').startup({
                         DapUIBreakpointsInfo = { fg = "#d3869b", },
                         DapUIBreakpointsCurrentLine = { fg = "#8bba7f", style = "bold", },
                         DapUIBreakpointsLine = { fg = "#8bba7f", },
+
+                        -- lspsaga
+                        LspSagaBorderTitle = { fg = mix.orange },
+                        LspSagaHoverBorder = { fg = "#928374", bg = "#282828", },
+                        LspSagaRenameBorder = { fg = mix.aqua },
+                        LspSagaDefPreviewBorder = { fg = "#928374", bg = "#282828", },
+                        LspSagaCodeActionBorder = { fg = mix.green, },
+                        LspSagaFinderSelection = { fg = mix.fg0 },
+                        LspSagaCodeActionTitle = { fg = mix.orange },
+                        LspSagaCodeActionContent = { fg = mix.fg0 },
+                        LspSagaSignatureHelpBorder = { fg = "#928374", bg = "#282828", },
+                        LspSagaDiagnosticBorder = { fg = mix.fg0 },
+                        LspSagaDiagnosticTruncateLine = { fg = mix.fg0 },
+                        LspSagaLspFinderBorder = { fg = mix.blue },
+                        LspSagaShTruncateLine = { fg = mix.fg0, },
+                        LspSagaDocTruncateLine = { fg = mix.fg0, },
+                        LspSagaCodeActionTruncateLine = { fg = mix.fg0, },
                     },
                 })
             end
+        }
+        use {
+            "folke/tokyonight.nvim",
+        }
+        use {
+            "catppuccin/nvim",
+            as = "catpuccin",
+        }
+        use {
+            "Mofiqul/dracula.nvim",
         }
         --}}}3
         -- {{{3 Comments
@@ -674,7 +712,6 @@ false
 )
 -- }}}2
 -- {{{2 Set colorsheme
-vim.cmd('syntax enable')
 -- }}}2
 -- {{{2 Map leaders
 map('n', '<Space>', '', {})
@@ -694,7 +731,7 @@ g.bufferline = {
 o.cmdheight = 2
 o.showtabline = 2
 o.hidden = true
-o.timeoutlen = 100
+o.timeoutlen = 300
 o.termguicolors = true
 o.background = 'dark'
 o.cursorline = true

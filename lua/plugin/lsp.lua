@@ -23,21 +23,17 @@ local setup = function()
 
       --Enable completion triggered by <c-x><c-o>
       buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+      local opts = { noremap=true, silent=true }
+      buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+      buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     end
 
     local function make_config()
       return {
         on_attach = on_attach,
         flags = {
-          debounce_text_changes = 150,
-        },
-        handlers = {
-           ['textDocument/publishDiagnostics'] = vim.lsp.with(
-             vim.lsp.diagnostic.on_publish_diagnostics, {
-               -- Disable virtual_text
-               virtual_text = false
-             }
-           ),
+          debounce_text_changes = 250,
         },
       }
     end
@@ -56,9 +52,11 @@ local setup = function()
     for _, server in pairs(lsp_installer.get_installed_servers()) do
       local config = make_config()
       if server.name == 'clangd' then
-        config.filetypes = { 'c', 'cpp' }
+        config.filetypes = { 'c', 'cpp', }
         config.cmd = server:get_default_options().cmd
-        table.insert(config.cmd, '--fallback-style=google')
+        config.cmd[1] = config.cmd[1] .. "_13.0.0/bin/clangd"
+        table.insert(config.cmd, "--fallback-style=Google")
+        table.insert(config.cmd, "--background-index")
       end
       if server.name == 'sumneko_lua' then
           config.settings = {
@@ -77,6 +75,12 @@ local setup = function()
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
     end
+    vim.diagnostic.config({
+        virtual_text = false,
+        -- update_in_insert = true,
+        -- float = { border='single', },
+    })
+    vim.lsp.set_log_level 'trace'
 end
 
 return {
