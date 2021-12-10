@@ -265,7 +265,6 @@ require('packer').startup({
             'idmitryd/gruvqueen',
             config = function()
                 local c = require("gruvqueen/palette").get_dark_theme_palette().common
-                c.bg_visual_aqua = "#253a1f"
                 -- local common = {
                 --     none =             "NONE",
                 --     bg0 =              "#10151a",
@@ -281,6 +280,7 @@ require('packer').startup({
                 --     bg_visual_green =  "#333e34",
                 --     bg_diff_red =      "#3c1f1e",
                 --     bg_visual_red =    "#442e2d",
+                --     bg_visual_aqua =   '#253a1f',
                 --     bg_diff_blue =     "#0d3138",
                 --     bg_visual_blue =   "#2e3b3b",
                 --     bg_visual_yellow = "#473c29",
@@ -308,6 +308,10 @@ require('packer').startup({
                 require("gruvqueen").setup({
                     config = {
                         disable_bold = false,
+                        italic_comments = true,
+                        -- italic_keywords = true,
+                        -- italic_functions = true,
+                        -- italic_variables = true,
                         bg_color = c.bg1,
                         style = 'mix',
                         invert_selection = false,
@@ -321,27 +325,6 @@ require('packer').startup({
                         CursorLineNr = { fg = "#e2cca9", },
                         FloatBorder = { fg = "#928374", bg = "#282828", },
                         -- NormalFloat = {},
-
-                        -- Diagnostis
-                        DiagnosticError = { fg = mix.red, bg = c.none, },
-                        DiagnosticWarn = { fg = mix.yellow, bg = c.none, },
-                        DiagnosticInfo = { fg = mix.blue, bg = c.none, },
-                        DiagnosticHint = { fg = mix.aqua, bg = c.none, },
-
-                        DiagnosticUnderlineError = { fg = c.none, bg = c.bg_visual_red, sp=mix.red, style = "undercurl", },
-                        DiagnosticUnderlineWarn = { fg = c.none, bg = c.bg_visual_yellow, sp=mix.yellow, style = "undercurl", },
-                        DiagnosticUnderlineInfo = { fg = c.none, bg = c.bg_visual_blue, sp=mix.blue, style = "undercurl", },
-                        DiagnosticUnderlineHint = { fg = c.none, bg = c.bg_visual_aqua, sp = mix.aqua, style = "undercurl" },
-
-                        DiagnosticFloatingError = {fg = c.red, bg = c.bg3, },
-                        DiagnosticFloatingWarn = {fg = c.yellow, bg = c.bg3, },
-                        DiagnosticFloatingInfo = {fg = c.blue, bg = c.bg3, },
-                        DiagnosticFloatingHint = {fg = c.green, bg = c.bg3, },
-
-                        -- DiagnosticVirtualTextError = {fg = c.red, },
-                        -- DiagnosticVirtualTextWarn = {fg = c.yellow, },
-                        -- DiagnosticVirtualTextInfo= {fg = c.blue, },
-                        -- DiagnosticVirtualTextHint = {fg = c.green, },
                     },
                     plugins = {
                         -- BarBar
@@ -401,16 +384,6 @@ require('packer').startup({
                     },
                 })
             end
-        }
-        use {
-            "folke/tokyonight.nvim",
-        }
-        use {
-            "catppuccin/nvim",
-            as = "catpuccin",
-        }
-        use {
-            "Mofiqul/dracula.nvim",
         }
         --}}}3
         -- {{{3 Comments
@@ -523,7 +496,7 @@ require('packer').startup({
                         lualine_x = {
                             {
                                 'diagnostics',
-                                sources = {'nvim_lsp'},
+                                sources = {'nvim_diagnostic'},
                                 symbols = { error = " ", warn = " ", info = " ", hint = " " },
                                 cond = conditions.hide_in_width,
                             },

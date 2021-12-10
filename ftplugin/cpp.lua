@@ -1,6 +1,11 @@
 vim.cmd("setlocal shiftwidth=2 tabstop=2 expandtab")
 vim.cmd("setlocal commentstring=//\\ %s")
 
+-- Need to set specific indentation for GNA project
+if string.find(vim.api.nvim_buf_get_name(0), 'gna') then
+    vim.cmd("setlocal shiftwidth=4 tabstop=4 expandtab")
+end
+
 local dap = require'dap'
 dap.adapters.lldb = {
   type = 'executable',

@@ -27,14 +27,29 @@ local setup = function()
       local opts = { noremap=true, silent=true }
       buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
       buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    end
+  end
 
-    local function make_config()
+  local function make_config()
+      -- local border = {
+      --     {"🭽", "FloatBorder"},
+      --     {"▔", "FloatBorder"},
+      --     {"🭾", "FloatBorder"},
+      --     {"▕", "FloatBorder"},
+      --     {"🭿", "FloatBorder"},
+      --     {"▁", "FloatBorder"},
+      --     {"🭼", "FloatBorder"},
+      --     {"▏", "FloatBorder"},
+      -- }
+      -- local handlers =  {
+      --     ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = border}),
+      --     ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = border }),
+      -- }
       return {
         on_attach = on_attach,
         flags = {
           debounce_text_changes = 250,
         },
+        handlers = handlers,
       }
     end
 
@@ -78,7 +93,7 @@ local setup = function()
     vim.diagnostic.config({
         virtual_text = false,
         -- update_in_insert = true,
-        -- float = { border='single', },
+        -- float = { border='double', },
     })
     vim.lsp.set_log_level 'trace'
 end
