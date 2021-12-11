@@ -55,6 +55,10 @@ local vopts = {
 -- see https://neovim.io/doc/user/map.html#:map-cmd
 local vmappings = {
     -- ["/"] = { "<ESC><CMD>lua ___comment_gc(vim.fn.visualmode())<CR>", "Comment" },
+    l = {
+        name = "LSP",
+        F = { "<esc><cmd>lua vim.lsp.buf.range_formatting()<CR>", "Format" },
+    },
 }
 local mappings = {
     -- ["w"] = { "<cmd>w!<CR>", "Save" },
@@ -169,7 +173,7 @@ local mappings = {
         i = { ":TSConfigInfo<cr>", "Info" },
     },
     t = {
-        name = "+Trouble",
+        name = "Trouble",
         t = { "<cmd>TroubleToggle<cr>", "Toggle"},
         r = { "<cmd>Trouble lsp_references<cr>", "References" },
         f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
@@ -180,7 +184,7 @@ local mappings = {
     },
     -- ["<Space>"] = {
     h = {
-        name = "+Hop",
+        name = "Hop",
         w = { "<cmd>HopWord<cr>", "Word"},
         l = { "<cmd>HopLineStart<cr>", "Line Start"},
         c = { "<cmd>HopChar1<cr>", "One Char"},
