@@ -560,6 +560,9 @@ require('packer').startup({
             "L3MON4D3/LuaSnip"
         }
         -- }}}
+        use {
+            "antoinemadec/FixCursorHold.nvim"
+        }
     end,
     config = {
         -- {{{3 Packer config
@@ -605,6 +608,7 @@ g.maplocalleader = '\\'
 -- {{{2 options and variables
 -- global options and variables
 g.nvim_tree_respect_buf_cwd = 1
+g.cursorhold_updatetime = 300
 g.bufferline = {
     closable = false,
     clickable = false,
@@ -613,10 +617,13 @@ g.bufferline = {
     -- icon_separator_inactive = '▌',
     -- icon_close_tab_modified = '●',
 }
+
 o.cmdheight = 2
 o.showtabline = 2
 o.hidden = true
 o.timeoutlen = 300
+-- o.updatetime = 300
+-- o.swapfile = false
 o.termguicolors = true
 o.background = 'dark'
 o.cursorline = true
