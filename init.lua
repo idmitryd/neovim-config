@@ -253,15 +253,6 @@ require('packer').startup({
         -- }}}3
         -- {{{3 Colorschemes
         use {
-            'sainnhe/gruvbox-material',
-            config = function()
-                vim.g.gruvbox_material_palette='mix'
-                vim.g.gruvbox_material_background='medium'
-                vim.g.gruvbox_material_enable_bold=1
-                vim.g.gruvbox_material_enable_italic=1
-            end,
-        }
-        use {
             'idmitryd/gruvqueen',
             config = function()
                 local c = require("gruvqueen/palette").get_dark_theme_palette().common
@@ -320,10 +311,12 @@ require('packer').startup({
                         LineNr = { fg = c.grey1, }, -- #928374
                         ColorColumn = { bg = c.bg_statusline2, }, -- #32302f
                         CursorLine = { bg = c.bg_statusline2, }, -- #32302f
-                        StatusLine = { fg = "#e2cca9", bg = c.bg_statusline2, },
+                        StatusLine = { fg = "#e2cca9", bg = c.bg_statusline2, style='NONE' },
+                        StatusLineNC = { fg = "#e2cca9", bg = c.bg_statusline2, style='NONE' },
                         Pmenu = { fg = "#e2cca9", bg = "#45403d", },
                         CursorLineNr = { fg = "#e2cca9", },
                         FloatBorder = { fg = "#928374", bg = "#282828", },
+                        EndOfBuffer = { fg = "#282828" },--, bg = "#282828" },
                         -- NormalFloat = {},
                     },
                     plugins = {
@@ -343,6 +336,7 @@ require('packer').startup({
                         BufferInactiveMod = { fg = "#928374", bg = "#45403d", },
                         BufferInactiveSign = { fg = "#7c6f64", bg = "#45403d"},
                         BufferInactiveTarget = { fg = "#e9b143", bg = "#45403d", style = "bold"},
+                        BufferOffset = { fg = mix.fg0, bg = c.bg_statusline2 },
 
                         -- dapui
                         DapUIVariable = { fg = "#e2cca9", bg = "#282828" },
@@ -381,6 +375,12 @@ require('packer').startup({
                         LspSagaShTruncateLine = { fg = mix.fg0, },
                         LspSagaDocTruncateLine = { fg = mix.fg0, },
                         LspSagaCodeActionTruncateLine = { fg = mix.fg0, },
+
+                        -- NvimTree
+                        NvimTreeNormal = { fg = c.fg0, bg = c.bg_statusline2 }, -- #32302F
+                        NvimTreeVertSplit = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
+                        NvimTreeStatusLine = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
+                        NvimTreeStatusLineNC = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
                     },
                 })
             end
@@ -551,6 +551,11 @@ require('packer').startup({
             "norcalli/nvim-colorizer.lua"
         }
         -- }}}3
+        -- {{{3 Snippets
+        use {
+            "L3MON4D3/LuaSnip"
+        }
+        -- }}}
     end,
     config = {
         -- {{{3 Packer config
