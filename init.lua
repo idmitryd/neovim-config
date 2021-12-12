@@ -377,7 +377,7 @@ require('packer').startup({
                         LspSagaCodeActionTruncateLine = { fg = mix.fg0, },
 
                         -- NvimTree
-                        NvimTreeNormal = { fg = c.fg0, bg = c.bg_statusline2 }, -- #32302F
+                        NvimTreeNormal = { fg = mix.fg0, bg = c.bg_statusline2 }, -- #32302F
                         NvimTreeVertSplit = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
                         NvimTreeStatusLine = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
                         NvimTreeStatusLineNC = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
