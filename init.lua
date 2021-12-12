@@ -317,26 +317,31 @@ require('packer').startup({
                         CursorLineNr = { fg = "#e2cca9", },
                         FloatBorder = { fg = "#928374", bg = "#282828", },
                         EndOfBuffer = { fg = "#282828" },--, bg = "#282828" },
+                        VertSplit = { fg = "#282828", bg = c.grey2 },
                         -- NormalFloat = {},
                     },
                     plugins = {
                         -- BarBar
-                        BufferCurrent = { fg = "#e2cca9", bg = "#5a524c", },
-                        BufferCurrentIndex = { fg = "#e2cca9", bg = "#5a524c", },
-                        BufferCurrentMod = { fg = "#80aa9e", bg = "#5a524c", },
-                        BufferCurrentSign = { fg = "#a89984", bg = "#5a524c"},
-                        BufferCurrentTarget = { fg = "#f2594b", bg = "#5a524c", style = "bold", },
-                        BufferVisible = { fg = "#e2cca9", bg = "#45403d", },
-                        BufferVisibleIndex = { fg = "#e2cca9", bg = "#45403d", },
-                        BufferVisibleMod = { fg = "#80aa9e", bg = "#45403d", },
-                        BufferVisibleSign = { fg = "#a89984", bg = "#45403d", },
-                        BufferVisibleTarget = { fg = "#e9b143", bg = "#45403d", style = "bold", },
-                        BufferInactive = { fg = "#928374", bg = "#45403d", },
-                        BufferInactiveIndex = { fg = "#928374", bg = "#45403d", },
-                        BufferInactiveMod = { fg = "#928374", bg = "#45403d", },
-                        BufferInactiveSign = { fg = "#7c6f64", bg = "#45403d"},
-                        BufferInactiveTarget = { fg = "#e9b143", bg = "#45403d", style = "bold"},
+                        BufferCurrent = { fg = "#e2cca9", bg = "#282828", },
+                        BufferCurrentIndex = { fg = "#e2cca9", bg = "#282828", },
+                        BufferCurrentMod = { fg = "#e9b143", bg = "#282828", },
+                        BufferCurrentSign = { fg = "#b0b846", bg = "#282828"},
+                        BufferCurrentTarget = { fg = "#f28534", bg = "#282828", style = "bold", },
+
+                        BufferVisible = { fg = "#e2cca9", bg = "#282828", },
+                        BufferVisibleIndex = { fg = "#e2cca9", bg = "#282828", },
+                        BufferVisibleMod = { fg = "#e9b143", bg = "#282828", },
+                        BufferVisibleSign = { fg = "#a89984", bg = "#282828", },
+                        BufferVisibleTarget = { fg = "#f28534", bg = "#282828", style = "bold", },
+
+                        BufferInactive = { fg = "#928374", bg = "#3c3836", },
+                        BufferInactiveIndex = { fg = "#928374", bg = "#3c3836", },
+                        BufferInactiveMod = { fg = "#928374", bg = "#3c3836", },
+                        BufferInactiveSign = { fg = "#928374", bg = "#3c3836"},
+                        BufferInactiveTarget = { fg = "#34a1f2", bg = "#3c3836", style = "bold"},
+
                         BufferOffset = { fg = mix.fg0, bg = c.bg_statusline2 },
+                        BufferTabpages = { fg = mix.purple },
 
                         -- dapui
                         DapUIVariable = { fg = "#e2cca9", bg = "#282828" },
@@ -381,6 +386,11 @@ require('packer').startup({
                         NvimTreeVertSplit = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
                         NvimTreeStatusLine = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
                         NvimTreeStatusLineNC = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
+
+                        -- Hop
+                        HopNextKey = { fg = "#f28534", style = "bold"  },
+                        HopNextKey1 = { fg = "#34a1f2", style = "bold" },
+                        HopNextKey2 = { fg = "#0f89e4", style = "bold" },
                     },
                 })
             end
@@ -398,13 +408,7 @@ require('packer').startup({
         use {
             "phaazon/hop.nvim",
             event = "BufRead",
-            config = function()
-                require("hop").setup()
-                -- Orange and blue
-                vim.api.nvim_command('highlight HopNextKey  guifg=#f28534 gui=bold ctermfg=198 cterm=bold')
-                vim.api.nvim_command('highlight HopNextKey1 guifg=#34a1f2 gui=bold ctermfg=45 cterm=bold')
-                vim.api.nvim_command('highlight HopNextKey2 guifg=#0f89e4 ctermfg=33')
-            end,
+            config = function() require("hop").setup() end,
         }
         -- }}}3
         -- {{{3 Identation guides
@@ -605,6 +609,9 @@ g.bufferline = {
     closable = false,
     clickable = false,
     letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
+    icon_separator_active = '▌',
+    -- icon_separator_inactive = '▌',
+    -- icon_close_tab_modified = '●',
 }
 o.cmdheight = 2
 o.showtabline = 2
