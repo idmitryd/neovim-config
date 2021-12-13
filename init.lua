@@ -421,6 +421,7 @@ require('packer').startup({
         -- {{{3 Comments
         use {
             "numToStr/Comment.nvim",
+            event = "BufRead",
             config = function()
                 require('Comment').setup({
                     ignore = '^$',
