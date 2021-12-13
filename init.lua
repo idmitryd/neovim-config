@@ -163,6 +163,25 @@ require('packer').startup({
                         HopNextKey = { fg = "#f28534", style = "bold"  },
                         HopNextKey1 = { fg = "#34a1f2", style = "bold" },
                         HopNextKey2 = { fg = "#0f89e4", style = "bold" },
+
+                        -- Notify
+                        NotifyERRORBorder = { fg = mix.red, },
+                        NotifyWARNBorder = { fg = mix.orange, },
+                        NotifyINFOBorder = { fg = mix.blue, },
+                        NotifyDEBUGBorder = { fg = mix.purple, },
+                        NotifyTRACEBorder = { fg = mix.aqua, },
+
+                        NotifyERRORIcon = { fg = mix.red, },
+                        NotifyWARNIcon = { fg = mix.orange, },
+                        NotifyINFOIcon = { fg = mix.blue, },
+                        NotifyDEBUGIcon = { fg = mix.purple, },
+                        NotifyTRACEIcon = { fg = mix.aqua, },
+
+                        NotifyERRORTitle = { fg = mix.red, },
+                        NotifyWARNTitle = { fg = mix.orange, },
+                        NotifyINFOTitle = { fg = mix.blue, },
+                        NotifyDEBUGTitle = { fg = mix.purple, },
+                        NotifyTRACETitle = { fg = mix.aqua, },
                     },
                 })
             end
@@ -374,6 +393,7 @@ require('packer').startup({
                 require('telescope').load_extension('dap')
                 require('telescope').load_extension('project')
                 require('telescope').load_extension('projects')
+                require("telescope").load_extension('notify')
             end,
         }
         -- }}}3
@@ -582,7 +602,6 @@ require('packer').startup({
             "L3MON4D3/LuaSnip",
             requires = "rafamadriz/friendly-snippets",
             config = function() require("luasnip/loaders/from_vscode").lazy_load() end,
-
         }
         -- }}}
         -- {{{3 FixCursorHold
@@ -590,6 +609,40 @@ require('packer').startup({
             "antoinemadec/FixCursorHold.nvim"
         }
         --- }}}
+        -- {{{3 Notify
+        use {
+            "rcarriga/nvim-notify",
+            config = function()
+                local notify = require("notify")
+                notify.setup({
+                    -- Animation style (see below for details)
+                    stages = "fade_in_slide_out",
+                    -- Function called when a new window is opened, use for changing win settings/config
+                    on_open = nil,
+                    -- Function called when a window is closed
+                    on_close = nil,
+                    -- Render function for notifications. See notify-render()
+                    render = "default",
+                    -- Default timeout for notifications
+                    timeout = 5000,
+                    -- For stages that change opacity this is treated as the highlight behind the window
+                    -- Set this to either a highlight group or an RGB hex value e.g. "#000000"
+                    background_colour = "#282828",
+                    -- Minimum width for notification windows
+                    minimum_width = 50,
+                    -- Icons for the different levels
+                    icons = {
+                        ERROR = "",
+                        WARN = "",
+                        INFO = "",
+                        DEBUG = "",
+                        TRACE = "✎",
+                    },
+                })
+                vim.notify = notify
+            end,
+        }
+        -- }}}
     end,
     config = {
         -- {{{3 Packer config
