@@ -1,4 +1,4 @@
-local function jumpable(dir)--{{{
+local function jumpable(dir)
     local luasnip_ok, luasnip = pcall(require, "luasnip")
     if not luasnip_ok then
         return
@@ -101,14 +101,14 @@ local function jumpable(dir)--{{{
     else
         return inside_snippet() and seek_luasnip_cursor_node() and luasnip.jumpable()
     end
-end--}}}
+end
 
-local check_backspace = function()--{{{
+local check_backspace = function()
     local col = vim.fn.col "." - 1
     return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end--}}}
+end
 
-local is_emmet_active = function()--{{{
+local is_emmet_active = function()
     local clients = vim.lsp.buf_get_clients()
 
     for _, client in pairs(clients) do
@@ -117,7 +117,7 @@ local is_emmet_active = function()--{{{
         end
     end
     return false
-end--}}}
+end
 
 local kind_icons = {
     Class = " ",
