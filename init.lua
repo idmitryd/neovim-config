@@ -398,13 +398,19 @@ require('packer').startup({
         --}}}3
         -- {{{3 Comments
         use {
-            'terrortylor/nvim-comment',
+            "numToStr/Comment.nvim",
             config = function()
-                require('nvim_comment').setup({comment_empty = false})
+                require('Comment').setup({
+                    ignore = '^$',
+                    mappings = {
+                        basic = true,
+                        extra = true,
+                    },
+                })
             end,
         }
         -- }}}3
-        -- {{{3 Movement
+        -- {{{3 Motion
         use {
             "phaazon/hop.nvim",
             event = "BufRead",
@@ -560,9 +566,11 @@ require('packer').startup({
             "L3MON4D3/LuaSnip"
         }
         -- }}}
+        -- {{{3 FixCursorHold
         use {
             "antoinemadec/FixCursorHold.nvim"
         }
+        --- }}}
     end,
     config = {
         -- {{{3 Packer config
