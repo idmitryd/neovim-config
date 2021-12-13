@@ -23,234 +23,6 @@ require('packer').startup({
         -- {{{3 Package manager
         use 'wbthomason/packer.nvim'
         -- }}}3
-        -- {{{3 Buffer line
-        use {
-            'romgrk/barbar.nvim',
-            requires = 'kyazdani42/nvim-web-devicons',
-            event = "BufWinEnter",
-        }
-        -- }}}3
-        -- {{{3 Which-key
-        use {
-            'folke/which-key.nvim',
-            event = 'BufWinEnter',
-            config = function()
-                  -- lua/plugin/which-key
-                  require "plugin.which-key".setup()
-            end,
-        }
-        -- }}}3
-        -- {{{3 DashBoard
-        use {
-            'ChristianChiarulli/dashboard-nvim',
-            event = 'BufWinEnter',
-            config = function()
-                vim.g.dashboard_custom_section = {
-                    a = {
-                        -- description = { "  Find File          " },
-                        description = { "  Find File" },
-                        command = "Telescope find_files",
-                    },
-                    b = {
-                        -- description = { "  New File           " },
-                        description = { "  New File" },
-                        command = ":ene!",
-                    },
-                    c = {
-                        -- description = { "  Recent Projects    " },
-                        description = { "  Recent Projects" },
-                        command = "Telescope projects",
-                    },
-                    d = {
-                        -- description = { "  Recently Used Files" },
-                        description = { "  Recently Used Files" },
-                        command = "Telescope oldfiles",
-                    },
-                    e = {
-                        -- description = { "  Find Word          " },
-                        description = { "  Find Word" },
-                        command = "Telescope live_grep",
-                    },
-                    f = {
-                        -- description = { "  Configuration      " },
-                        description = { "  Configuration" },
-                        command = ":e " .. vim.fn.stdpath('config') .. '/init.lua',
-                    },
-                }
-                vim.g.dashboard_custom_header = {
-                    '    ⢰⣧⣼⣯⠄⣸⣠⣶⣶⣦⣾⠄     ⢀⣿⣿   ⢸⡇⠄⠄                                                         ⣿⣿⣷⡁⢆⠈⠕⢕⢂⢕⢂⢕⢂⢔⢂⢕⢄⠂⣂⠂⠆⢂⢕⢂⢕⢂⢕⢂⢕⢂ ',
-                    '    ⣾⣿⠿⠿⠶⠿⢿⣿⣿⣿⣿⣦⣤⣄⢀ ⢠⣾⣛⡉   ⠸⢀⣿⠄                                                         ⣿⣿⣿⡷⠊⡢⡹⣦⡑⢂⢕⢂⢕⢂⢕⢂⠕⠔⠌⠝⠛⠶⠶⢶⣦⣄⢂⢕⢂⢕ ',
-                    '   ⢀⡋⣡⣴⣶⣶⡀⠄⠄⠙⢿⣿⣿⣿⣿⣿⣴⣿⣿⣿⢃⣤⣄⣀⣥⣿⣿⠄                                                         ⣿⣿⠏⣠⣾⣦⡐⢌⢿⣷⣦⣅⡑⠕⠡⠐⢿⠿⣛⠟⠛⠛⠛⠛⠡⢷⡈⢂⢕⢂ ',
-                    '   ⢸⣇⠻⣿⣿⣿⣧⣀⢀⣠⡌⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⠄                                                         ⠟⣡⣾⣿⣿⣿⣿⣦⣑⠝⢿⣿⣿⣿⣿⣿⡵⢁⣤⣶⣶⣿⢿⢿⢿⡟⢻⣤⢑⢂ ',
-                    '  ⢀⢸⣿⣷⣤⣤⣤⣬⣙⣛⢿⣿⣿⣿⣿⣿⣿⡿⣿⣿⡍⠄⠄⢀⣤⣄⠉⠋⣰  ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗ ⣾⣿⣿⡿⢟⣛⣻⣿⣿⣿⣦⣬⣙⣻⣿⣿⣷⣿⣿⢟⢝⢕⢕⢕⢕⢽⣿⣿⣷⣔ ',
-                    '  ⣼⣖⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⢇⣿⣿⡷⠶⠶⢿⣿⣿⠇⢀⣤  ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║ ⣿⣿⠵⠚⠉⢀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣗⢕⢕⢕⢕⢕⢕⣽⣿⣿⣿⣿ ',
-                    ' ⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣷⣶⣥⣴⣿⡗  ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║ ⢷⣂⣠⣴⣾⡿⡿⡻⡻⣿⣿⣴⣿⣿⣿⣿⣿⣿⣷⣵⣵⣵⣷⣿⣿⣿⣿⣿⣿⡿ ',
-                    ' ⢀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟   ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║  ⠻⣿⡿⡫⡪⡪⡪⡪⣺⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃ ',
-                    ' ⢸⣿⣦⣌⣛⣻⣿⣿⣧⠙⠛⠛⡭⠅⠒⠦⠭⣭⡻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃   ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║   ⠹⡪⡪⡪⡪⣪⣾⣿⣿⣿⣿⠋⠐⢉⢍⢄⢌⠻⣿⣿⣿⣿⣿⣿⣿⣿⠏  ',
-                    ' ⠘⣿⣿⣿⣿⣿⣿⣿⣿⡆        ⠹⠈⢋⣽⣿⣿⣿⣿⣵⣾⠃   ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝    ⠙⣾⣾⣾⣿⣿⣿⣿⣿⣿⡀⢐⢕⢕⢕⢕⢕⡘⣿⣿⣿⣿⣿⣿⠏   ',
-                    '  ⠘⣿⣿⣿⣿⣿⣿⣿⣿ ⣴⣿⣶⣄⠄⣴⣶⠄⢀⣾⣿⣿⣿⣿⣿⣿⠃                                                               ⠹⣿⣿⣿⣿⣿⣿⣿⣿⣧⢐⢕⢕⢕⢕⢕⢅⣿⣿⣿⣿⡿⢋⢜   ',
-                    '   ⠈⠻⣿⣿⣿⣿⣿⣿⡄⢻⣿⣿⣿⠄⣿⣿⡀⣾⣿⣿⣿⣿⣛⠛⠁                                                                 ⠈⠻⣿⣿⣿⣿⣿⣿⣿⣷⣕⣑⣑⣑⣵⣿⣿⣿⡿⢋⢔⢕⣿   ',
-                    '     ⠈⠛⢿⣿⣿⣿⠁⠞⢿⣿⣿⡄⢿⣿⡇⣸⣿⣿⠿⠛⠁                                                                      ⠉⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢋⢔⢕⢕⣿⣿   ',
-                    '        ⠉⠻⣿⣿⣾⣦⡙⠻⣷⣾⣿⠃⠿⠋⠁                                                                                ⠉⢍⢛⢛⢛⢋⢔⢕⢕⢕⣽⣿⣿   ',
-
---                     ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
---                     ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
---                     ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
---                     ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
---                     ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
---                     ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
-                }
-                vim.api.nvim_command('autocmd FileType dashboard set showtabline=0 | autocmd BufLeave <buffer> set showtabline=2')
-                vim.api.nvim_command('autocmd FileType dashboard setlocal nocursorline noswapfile synmaxcol& signcolumn=no norelativenumber nocursorcolumn nospell  nolist  nonumber bufhidden=wipe colorcolumn= foldcolumn=0 matchpairs= ')
-                vim.api.nvim_command('autocmd FileType dashboard nnoremap <silent> <buffer> q :q<CR>')
-            end,
-        }
-        -- }}}3
-        -- {{{3 Neorg
-        use {
-            'nvim-neorg/neorg',
-            config = function()
-                require('neorg').setup {
-                    -- Tell Neorg what modules to load
-                    load = {
-                        -- Load all the default modules
-                        ["core.defaults"] = {},
-                        -- Configure core.keybinds
-                        ["core.keybinds"] = {
-                            config = {
-                                default_keybinds = true, -- Generate the default keybinds
-                                neorg_leader = "<Leader>o" -- This is the default if unspecified
-                            }
-                        },
-                        -- Allows for use of icons
-                        ["core.norg.concealer"] = {},
-                        -- Manage your directories with Neorg
-                        ["core.norg.dirman"] = {
-                            config = {
-                                workspaces = {
-                                    my_workspace = "~/neorg"
-                                }
-                            }
-                        },
-                        ["core.integrations.telescope"] = {},
-                    },
-                }
-            end,
-            requires = { 'nvim-lua/plenary.nvim', 'nvim-neorg/neorg-telescope' }
-        }
-        -- }}}3
-        -- {{{3 LSP
-        use {
-            'neovim/nvim-lspconfig',
-            requires = 'williamboman/nvim-lsp-installer',
-            -- lua/plugin/lsp
-            run = function() require('plugin.lsp').run() end,
-            config = function() require('plugin.lsp').setup() end,
-        }
-        use {
-            "tami5/lspsaga.nvim",
-            config = function()
-                require('lspsaga').setup()
-                local options = { noremap = true }
-                vim.api.nvim_set_keymap('n', '<C-d>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", options)
-                vim.api.nvim_set_keymap('n', '<C-u>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", options)
-            end,
-        }
-        -- }}}3
-        -- {{{3 Tree-sitter
-        use 'nvim-treesitter/nvim-treesitter-textobjects'
-        use {
-            'nvim-treesitter/nvim-treesitter',
-            run = ':TSUpdate',
-            config = function()
-                -- lua/plugin/nvim-treesitter
-                require'plugin.nvim-treesitter'.setup()
-            end,
-        }
-        -- }}}3
-        -- {{{3 Trouble
-        use {
-            'folke/trouble.nvim',
-            requires = {
-                'nvim-lua/popup.nvim',
-                'nvim-lua/plenary.nvim',
-            },
-            config = function()
-                require('trouble').setup {
-                    height = 8,
-                    auto_preview = false,
-                    auto_fold = true,
-                }
-            end,
-        }
-        -- }}}3
-        -- {{{3 Debug
-        use {
-            'mfussenegger/nvim-dap',
-            requires = { 'rcarriga/nvim-dap-ui', 'Pocco81/DAPInstall.nvim'},
-            -- ft = 'cpp',
-            config = function()
-                -- lua/plugin/dap
-                require('plugin.dap').setup()
-            end,
-        }
-        -- }}}3
-        -- {{{3 Telescope
-        use {
-            'nvim-telescope/telescope.nvim',
-            requires = {
-                'nvim-telescope/telescope-dap.nvim',
-                'nvim-telescope/telescope-project.nvim',
-            },
-            config = function()
-                require('telescope')
-                require('telescope').load_extension('dap')
-                require('telescope').load_extension('project')
-                require('telescope').load_extension('projects')
-            end,
-        }
-        -- }}}3
-        -- {{{3 Project manager
-        use {
-            "ahmedkhalf/project.nvim",
-            config = function()
-                require("project_nvim").setup {
-                    -- Manual mode doesn't automatically change your root directory, so you have
-                    -- the option to manually do so using `:ProjectRoot` command.
-                    manual_mode = false,
-
-                    -- Methods of detecting the root directory. **"lsp"** uses the native neovim
-                    -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
-                    -- order matters: if one is not detected, the other is used as fallback. You
-                    -- can also delete or rearangne the detection methods.
-                    detection_methods = { "lsp", "pattern" },
-
-                    -- All the patterns used to detect root dir, when **"pattern"** is in
-                    -- detection_methods
-                    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
-
-                    -- Table of lsp clients to ignore by name
-                    -- eg: { "efm", ... }
-                    ignore_lsp = {},
-
-                    -- Don't calculate root dir on specific directories
-                    -- Ex: { "~/.cargo/*", ... }
-                    exclude_dirs = {},
-
-                    -- Show hidden files in telescope
-                    show_hidden = false,
-
-                    -- When set to false, you will get a message when project.nvim changes your
-                    -- directory.
-                    silent_chdir = true,
-
-                    -- Path where project.nvim will store the project history for use in
-                    -- telescope
-                    datapath = vim.fn.stdpath("data"),
-                }
-            end,
-        }
-        -- }}}3
         -- {{{3 Colorschemes
         use {
             'idmitryd/gruvqueen',
@@ -396,6 +168,256 @@ require('packer').startup({
             end
         }
         --}}}3
+        -- {{{3 Status line
+        use {
+            'hoob3rt/lualine.nvim',
+            -- lua/plugin/lualine
+            config = function() require('plugin.lualine').setup() end,
+        }
+        -- }}}3
+        -- {{{3 Buffer line
+        use {
+            'romgrk/barbar.nvim',
+            requires = 'kyazdani42/nvim-web-devicons',
+            event = "BufWinEnter",
+        }
+        -- }}}3
+        -- {{{3 Which-key
+        use {
+            'folke/which-key.nvim',
+            event = 'BufWinEnter',
+            config = function()
+                  -- lua/plugin/which-key
+                  require "plugin.which-key".setup()
+            end,
+        }
+        -- }}}3
+        -- {{{3 DashBoard
+        use {
+            'ChristianChiarulli/dashboard-nvim',
+            event = 'BufWinEnter',
+            config = function()
+                vim.g.dashboard_custom_section = {
+                    a = {
+                        -- description = { "  Find File          " },
+                        description = { "  Find File" },
+                        command = "Telescope find_files",
+                    },
+                    b = {
+                        -- description = { "  New File           " },
+                        description = { "  New File" },
+                        command = ":ene!",
+                    },
+                    c = {
+                        -- description = { "  Recent Projects    " },
+                        description = { "  Recent Projects" },
+                        command = "Telescope projects",
+                    },
+                    d = {
+                        -- description = { "  Recently Used Files" },
+                        description = { "  Recently Used Files" },
+                        command = "Telescope oldfiles",
+                    },
+                    e = {
+                        -- description = { "  Find Word          " },
+                        description = { "  Find Word" },
+                        command = "Telescope live_grep",
+                    },
+                    f = {
+                        -- description = { "  Configuration      " },
+                        description = { "  Configuration" },
+                        command = ":e " .. vim.fn.stdpath('config') .. '/init.lua',
+                    },
+                }
+                vim.g.dashboard_custom_header = {
+                    '    ⢰⣧⣼⣯⠄⣸⣠⣶⣶⣦⣾⠄     ⢀⣿⣿   ⢸⡇⠄⠄                                                         ⣿⣿⣷⡁⢆⠈⠕⢕⢂⢕⢂⢕⢂⢔⢂⢕⢄⠂⣂⠂⠆⢂⢕⢂⢕⢂⢕⢂⢕⢂ ',
+                    '    ⣾⣿⠿⠿⠶⠿⢿⣿⣿⣿⣿⣦⣤⣄⢀ ⢠⣾⣛⡉   ⠸⢀⣿⠄                                                         ⣿⣿⣿⡷⠊⡢⡹⣦⡑⢂⢕⢂⢕⢂⢕⢂⠕⠔⠌⠝⠛⠶⠶⢶⣦⣄⢂⢕⢂⢕ ',
+                    '   ⢀⡋⣡⣴⣶⣶⡀⠄⠄⠙⢿⣿⣿⣿⣿⣿⣴⣿⣿⣿⢃⣤⣄⣀⣥⣿⣿⠄                                                         ⣿⣿⠏⣠⣾⣦⡐⢌⢿⣷⣦⣅⡑⠕⠡⠐⢿⠿⣛⠟⠛⠛⠛⠛⠡⢷⡈⢂⢕⢂ ',
+                    '   ⢸⣇⠻⣿⣿⣿⣧⣀⢀⣠⡌⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⠄                                                         ⠟⣡⣾⣿⣿⣿⣿⣦⣑⠝⢿⣿⣿⣿⣿⣿⡵⢁⣤⣶⣶⣿⢿⢿⢿⡟⢻⣤⢑⢂ ',
+                    '  ⢀⢸⣿⣷⣤⣤⣤⣬⣙⣛⢿⣿⣿⣿⣿⣿⣿⡿⣿⣿⡍⠄⠄⢀⣤⣄⠉⠋⣰  ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗ ⣾⣿⣿⡿⢟⣛⣻⣿⣿⣿⣦⣬⣙⣻⣿⣿⣷⣿⣿⢟⢝⢕⢕⢕⢕⢽⣿⣿⣷⣔ ',
+                    '  ⣼⣖⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⢇⣿⣿⡷⠶⠶⢿⣿⣿⠇⢀⣤  ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║ ⣿⣿⠵⠚⠉⢀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣗⢕⢕⢕⢕⢕⢕⣽⣿⣿⣿⣿ ',
+                    ' ⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣷⣶⣥⣴⣿⡗  ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║ ⢷⣂⣠⣴⣾⡿⡿⡻⡻⣿⣿⣴⣿⣿⣿⣿⣿⣿⣷⣵⣵⣵⣷⣿⣿⣿⣿⣿⣿⡿ ',
+                    ' ⢀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟   ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║  ⠻⣿⡿⡫⡪⡪⡪⡪⣺⣿⣿⣿⣿⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃ ',
+                    ' ⢸⣿⣦⣌⣛⣻⣿⣿⣧⠙⠛⠛⡭⠅⠒⠦⠭⣭⡻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃   ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║   ⠹⡪⡪⡪⡪⣪⣾⣿⣿⣿⣿⠋⠐⢉⢍⢄⢌⠻⣿⣿⣿⣿⣿⣿⣿⣿⠏  ',
+                    ' ⠘⣿⣿⣿⣿⣿⣿⣿⣿⡆        ⠹⠈⢋⣽⣿⣿⣿⣿⣵⣾⠃   ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝    ⠙⣾⣾⣾⣿⣿⣿⣿⣿⣿⡀⢐⢕⢕⢕⢕⢕⡘⣿⣿⣿⣿⣿⣿⠏   ',
+                    '  ⠘⣿⣿⣿⣿⣿⣿⣿⣿ ⣴⣿⣶⣄⠄⣴⣶⠄⢀⣾⣿⣿⣿⣿⣿⣿⠃                                                               ⠹⣿⣿⣿⣿⣿⣿⣿⣿⣧⢐⢕⢕⢕⢕⢕⢅⣿⣿⣿⣿⡿⢋⢜   ',
+                    '   ⠈⠻⣿⣿⣿⣿⣿⣿⡄⢻⣿⣿⣿⠄⣿⣿⡀⣾⣿⣿⣿⣿⣛⠛⠁                                                                 ⠈⠻⣿⣿⣿⣿⣿⣿⣿⣷⣕⣑⣑⣑⣵⣿⣿⣿⡿⢋⢔⢕⣿   ',
+                    '     ⠈⠛⢿⣿⣿⣿⠁⠞⢿⣿⣿⡄⢿⣿⡇⣸⣿⣿⠿⠛⠁                                                                      ⠉⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢋⢔⢕⢕⣿⣿   ',
+                    '        ⠉⠻⣿⣿⣾⣦⡙⠻⣷⣾⣿⠃⠿⠋⠁                                                                                ⠉⢍⢛⢛⢛⢋⢔⢕⢕⢕⣽⣿⣿   ',
+
+--                     ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+--                     ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+--                     ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+--                     ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+--                     ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+--                     ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+                }
+                vim.api.nvim_command('autocmd FileType dashboard set showtabline=0 | autocmd BufLeave <buffer> set showtabline=2')
+                vim.api.nvim_command('autocmd FileType dashboard setlocal nocursorline noswapfile synmaxcol& signcolumn=no norelativenumber nocursorcolumn nospell  nolist  nonumber bufhidden=wipe colorcolumn= foldcolumn=0 matchpairs= ')
+                vim.api.nvim_command('autocmd FileType dashboard nnoremap <silent> <buffer> q :q<CR>')
+            end,
+        }
+        -- }}}3
+        -- {{{3 Neorg
+        use {
+            'nvim-neorg/neorg',
+            config = function()
+                require('neorg').setup {
+                    -- Tell Neorg what modules to load
+                    load = {
+                        -- Load all the default modules
+                        ["core.defaults"] = {},
+                        -- Configure core.keybinds
+                        ["core.keybinds"] = {
+                            config = {
+                                default_keybinds = true, -- Generate the default keybinds
+                                neorg_leader = "<Leader>o" -- This is the default if unspecified
+                            }
+                        },
+                        -- Allows for use of icons
+                        ["core.norg.concealer"] = {},
+                        -- Manage your directories with Neorg
+                        ["core.norg.dirman"] = {
+                            config = {
+                                workspaces = {
+                                    my_workspace = "~/neorg"
+                                }
+                            }
+                        },
+                        ["core.integrations.telescope"] = {},
+                    },
+                }
+            end,
+            requires = { 'nvim-lua/plenary.nvim', 'nvim-neorg/neorg-telescope' }
+        }
+        -- }}}3
+        -- {{{3 nvim-cmp
+        use {
+            "hrsh7th/nvim-cmp",
+            requires = {
+                'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-buffer',
+                'hrsh7th/cmp-path',
+                'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-nvim-lua',
+                'saadparwaiz1/cmp_luasnip',
+            },
+            -- lua/plugin/cmp
+            config = function() require('plugin.cmp').setup() end,
+        }
+        -- }}}
+        -- {{{3 LSP
+        use {
+            'neovim/nvim-lspconfig',
+            requires = 'williamboman/nvim-lsp-installer',
+            -- lua/plugin/lsp
+            run = function() require('plugin.lsp').run() end,
+            config = function() require('plugin.lsp').setup() end,
+        }
+        use {
+            "tami5/lspsaga.nvim",
+            config = function()
+                require('lspsaga').setup()
+                local options = { noremap = true }
+                vim.api.nvim_set_keymap('n', '<C-d>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", options)
+                vim.api.nvim_set_keymap('n', '<C-u>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", options)
+            end,
+        }
+        -- }}}3
+        -- {{{3 Tree-sitter
+        use 'nvim-treesitter/nvim-treesitter-textobjects'
+        use {
+            'nvim-treesitter/nvim-treesitter',
+            run = ':TSUpdate',
+            config = function()
+                -- lua/plugin/nvim-treesitter
+                require'plugin.nvim-treesitter'.setup()
+            end,
+        }
+        -- }}}3
+        -- {{{3 Trouble
+        use {
+            'folke/trouble.nvim',
+            requires = {
+                'nvim-lua/popup.nvim',
+                'nvim-lua/plenary.nvim',
+            },
+            config = function()
+                require('trouble').setup {
+                    height = 8,
+                    auto_preview = false,
+                    auto_fold = true,
+                }
+            end,
+        }
+        -- }}}3
+        -- {{{3 Debug
+        use {
+            'mfussenegger/nvim-dap',
+            requires = { 'rcarriga/nvim-dap-ui', 'Pocco81/DAPInstall.nvim'},
+            -- ft = 'cpp',
+            config = function()
+                -- lua/plugin/dap
+                require('plugin.dap').setup()
+            end,
+        }
+        -- }}}3
+        -- {{{3 Telescope
+        use {
+            'nvim-telescope/telescope.nvim',
+            requires = {
+                'nvim-telescope/telescope-dap.nvim',
+                'nvim-telescope/telescope-project.nvim',
+            },
+            config = function()
+                require('telescope')
+                require('telescope').load_extension('dap')
+                require('telescope').load_extension('project')
+                require('telescope').load_extension('projects')
+            end,
+        }
+        -- }}}3
+        -- {{{3 Project manager
+        use {
+            "ahmedkhalf/project.nvim",
+            config = function()
+                require("project_nvim").setup {
+                    -- Manual mode doesn't automatically change your root directory, so you have
+                    -- the option to manually do so using `:ProjectRoot` command.
+                    manual_mode = false,
+
+                    -- Methods of detecting the root directory. **"lsp"** uses the native neovim
+                    -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+                    -- order matters: if one is not detected, the other is used as fallback. You
+                    -- can also delete or rearangne the detection methods.
+                    detection_methods = { "lsp", "pattern" },
+
+                    -- All the patterns used to detect root dir, when **"pattern"** is in
+                    -- detection_methods
+                    patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+
+                    -- Table of lsp clients to ignore by name
+                    -- eg: { "efm", ... }
+                    ignore_lsp = {},
+
+                    -- Don't calculate root dir on specific directories
+                    -- Ex: { "~/.cargo/*", ... }
+                    exclude_dirs = {},
+
+                    -- Show hidden files in telescope
+                    show_hidden = false,
+
+                    -- When set to false, you will get a message when project.nvim changes your
+                    -- directory.
+                    silent_chdir = true,
+
+                    -- Path where project.nvim will store the project history for use in
+                    -- telescope
+                    datapath = vim.fn.stdpath("data"),
+                }
+            end,
+        }
+        -- }}}3
         -- {{{3 Comments
         use {
             "numToStr/Comment.nvim",
@@ -456,18 +478,11 @@ require('packer').startup({
             end,
         }
         -- }}}3
-        -- {{{3 Status line
-        use {
-            'hoob3rt/lualine.nvim',
-            -- lua/plugin/lualine
-            config = function() require('plugin.lualine').setup() end,
-        }
-        -- }}}3
         -- {{{3 Surrounding
         use {
             "blackcauldron7/surround.nvim",
             config = function()
-                require('surround').setup{}
+                require('surround').setup{load_keymaps=false}
             end,
         }
         -- }}}3
