@@ -610,11 +610,11 @@ local map = vim.api.nvim_set_keymap
 
 -- {{{2 Autogroups
 -- Need to make nvim to recognize .fish files
-vim.cmd('au! BufRead,BufNewFile *.fish set filetype=fish')
+-- vim.cmd('au! BufRead,BufNewFile *.fish set filetype=fish')
 -- Need to setlocal foldmethod=marker for init.lua
 vim.api.nvim_exec(
 [[
-augroup mine
+augroup config
 autocmd!
 autocmd BufEnter init.lua setlocal foldmethod=marker
 augroup end
