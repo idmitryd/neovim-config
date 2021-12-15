@@ -11,7 +11,7 @@ local setup = function()
     require('lualine').setup{
         options = {
             icons_enabled=true,
-            theme='gruvqueen-material',
+            theme='gruvqueen-medium',
             section_separators='',
             component_separators='',
             disabled_filetypes = {"dashboard", "NvimTree", "Outline"},

@@ -30,25 +30,24 @@ require('packer').startup({
                 local c = require("gruvqueen/palette").get_dark_theme_palette().common
                 -- local common = {
                 --     none =             "NONE",
-                --     bg0 =              "#10151a",
-                --     bg1 =              "#282828",
-                --     bg2 =              "#282828",
-                --     bg3 =              "#3c3836",
-                --     bg4 =              "#3c3836",
-                --     bg5 =              "#504945",
-                --     bg_statusline1 =   "#282828",
-                --     bg_statusline2 =   "#32302f",
+                --     bg0 =              "#282828",
+                --     bg1 =              "#32302f",
+                --     bg2 =              "#32302f",
+                --     bg3 =              "#45403d",
+                --     bg4 =              "#45403d",
+                --     bg5 =              "#5a544c",
+                --     bg_statusline1 =   "#32302f",
+                --     bg_statusline2 =   "#3a3735",
                 --     bg_statusline3 =   "#504945",
-                --     bg_diff_green =    "#32361a",
-                --     bg_visual_green =  "#333e34",
-                --     bg_diff_red =      "#3c1f1e",
-                --     bg_visual_red =    "#442e2d",
+                --     bg_diff_green =    "#34381b",
+                --     bg_visual_green =  "#3b4439",
+                --     bg_diff_red =      "#402120",
+                --     bg_visual_red =    "#4c3432",
+                --     bg_diff_blue =     "#0e363e",
+                --     bg_visual_blue =   "#374141",
+                --     bg_visual_yellow = "#4f422e",
                 --     bg_visual_aqua =   '#253a1f',
-                --     bg_diff_blue =     "#0d3138",
-                --     bg_visual_blue =   "#2e3b3b",
-                --     bg_visual_yellow = "#473c29",
-                --     bg_visual_aqua =   "#253a1f"
-                --     bg_current_word =  "#32302f",
+                --     bg_current_word =  "#3c3836",
                 --     grey0 =            "#7c6f64",
                 --     grey1 =            "#928374",
                 --     grey2 =            "#a89984",
@@ -68,6 +67,7 @@ require('packer').startup({
                 --     bg_green =  "#b0b846",
                 --     bg_yellow = "#e9b143",
                 -- }
+
                 require("gruvqueen").setup({
                     config = {
                         disable_bold = false,
@@ -75,113 +75,20 @@ require('packer').startup({
                         -- italic_keywords = true,
                         -- italic_functions = true,
                         -- italic_variables = true,
-                        bg_color = '#282828',
+                        bg_color = c.bg0,
                         style = 'mix',
                         invert_selection = false,
                     },
                     base = {
                         LineNr = { fg = c.grey1, }, -- #928374
-                        ColorColumn = { bg = c.bg_statusline2, }, -- #32302f
-                        CursorLine = { bg = c.bg_statusline2, }, -- #32302f
-                        StatusLine = { fg = "#e2cca9", bg = c.bg_statusline2, style='NONE' },
-                        StatusLineNC = { fg = "#e2cca9", bg = c.bg_statusline2, style='NONE' },
-                        Pmenu = { fg = "#e2cca9", bg = "#45403d", },
-                        CursorLineNr = { fg = "#e2cca9", },
-                        FloatBorder = { fg = "#928374", bg = "#282828", },
-                        EndOfBuffer = { fg = "#282828" },--, bg = "#282828" },
-                        VertSplit = { fg = "#282828", bg = c.grey2 },
-                        -- NormalFloat = {},
+                        CursorLineNr = { fg = mix.fg0, },
+                        FloatBorder = { fg = c.grey1, bg = c.bg0, },
+                        EndOfBuffer = { fg = c.bg0 },--, bg = c.bg0 },
+                        VertSplit = { fg = c.bg0, bg = c.grey2 },
+                        NormalFloat = { bg = c.bg0 },
+                        TabLineFill = {fg = c.fg1, bg = c.bg0, style = "NONE", },
                     },
                     plugins = {
-                        -- BarBar
-                        BufferCurrent = { fg = "#e2cca9", bg = "#282828", },
-                        BufferCurrentIndex = { fg = "#e2cca9", bg = "#282828", },
-                        BufferCurrentMod = { fg = "#e9b143", bg = "#282828", },
-                        BufferCurrentSign = { fg = "#b0b846", bg = "#282828"},
-                        BufferCurrentTarget = { fg = "#f28534", bg = "#282828", style = "bold", },
-
-                        BufferVisible = { fg = "#e2cca9", bg = "#282828", },
-                        BufferVisibleIndex = { fg = "#e2cca9", bg = "#282828", },
-                        BufferVisibleMod = { fg = "#e9b143", bg = "#282828", },
-                        BufferVisibleSign = { fg = "#a89984", bg = "#282828", },
-                        BufferVisibleTarget = { fg = "#f28534", bg = "#282828", style = "bold", },
-
-                        BufferInactive = { fg = "#928374", bg = "#3c3836", },
-                        BufferInactiveIndex = { fg = "#928374", bg = "#3c3836", },
-                        BufferInactiveMod = { fg = "#928374", bg = "#3c3836", },
-                        BufferInactiveSign = { fg = "#928374", bg = "#3c3836"},
-                        BufferInactiveTarget = { fg = "#34a1f2", bg = "#3c3836", style = "bold"},
-
-                        BufferOffset = { fg = mix.fg0, bg = c.bg_statusline2 },
-                        BufferTabpages = { fg = mix.purple },
-
-                        -- dapui
-                        DapUIVariable = { fg = "#e2cca9", bg = "#282828" },
-                        DapUIScope = { fg = "#b0b846", },
-                        DapUIType = { fg = "#e9b143", },
-                        DapUIValue = { fg = "#d3869b", bg = "#282828" },
-                        DapUIModifiedValue = { fg = "#8bba7f", style = "bold", },
-                        DapUIDecoration = { fg = "#b0b846", },
-                        DapUIThread = { fg = "#d3869b", },
-                        DapUIStoppedThread = { fg = "#b0b846", },
-                        DapUIFrameName = { fg = "#e2cca9", bg = "#282828" },
-                        DapUISource = { fg = "#e9b143", },
-                        DapUILineNumber = { fg = "#8bba7f", },
-                        DapUIFloatBorder = { fg = "#504945", },
-                        DapUIWatchesEmpty = { fg = "#f2594b", },
-                        DapUIWatchesValue = { fg = "#d3869b", },
-                        DapUIWatchesError = { fg = "#f2594b", },
-                        DapUIBreakpointsPath = { fg = "#b0b846", },
-                        DapUIBreakpointsInfo = { fg = "#d3869b", },
-                        DapUIBreakpointsCurrentLine = { fg = "#8bba7f", style = "bold", },
-                        DapUIBreakpointsLine = { fg = "#8bba7f", },
-
-                        -- lspsaga
-                        LspSagaBorderTitle = { fg = mix.orange },
-                        LspSagaHoverBorder = { fg = "#928374", bg = "#282828", },
-                        LspSagaRenameBorder = { fg = mix.aqua },
-                        LspSagaDefPreviewBorder = { fg = "#928374", bg = "#282828", },
-                        LspSagaCodeActionBorder = { fg = mix.green, },
-                        LspSagaFinderSelection = { fg = mix.fg0 },
-                        LspSagaCodeActionTitle = { fg = mix.orange },
-                        LspSagaCodeActionContent = { fg = mix.fg0 },
-                        LspSagaSignatureHelpBorder = { fg = "#928374", bg = "#282828", },
-                        LspSagaDiagnosticBorder = { fg = mix.fg0 },
-                        LspSagaDiagnosticTruncateLine = { fg = mix.fg0 },
-                        LspSagaLspFinderBorder = { fg = mix.blue },
-                        LspSagaShTruncateLine = { fg = mix.fg0, },
-                        LspSagaDocTruncateLine = { fg = mix.fg0, },
-                        LspSagaCodeActionTruncateLine = { fg = mix.fg0, },
-
-                        -- NvimTree
-                        NvimTreeNormal = { fg = mix.fg0, bg = c.bg_statusline2 }, -- #32302F
-                        NvimTreeVertSplit = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
-                        NvimTreeStatusLine = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
-                        NvimTreeStatusLineNC = { fg = c.bg_statusline2, bg = c.bg_statusline2 },
-
-                        -- Hop
-                        HopNextKey = { fg = "#f28534", style = "bold"  },
-                        HopNextKey1 = { fg = "#34a1f2", style = "bold" },
-                        HopNextKey2 = { fg = "#0f89e4", style = "bold" },
-
-                        -- Notify
-                        NotifyERRORBorder = { fg = mix.red, },
-                        NotifyWARNBorder = { fg = mix.orange, },
-                        NotifyINFOBorder = { fg = mix.blue, },
-                        NotifyDEBUGBorder = { fg = mix.purple, },
-                        NotifyTRACEBorder = { fg = mix.aqua, },
-
-                        NotifyERRORIcon = { fg = mix.red, },
-                        NotifyWARNIcon = { fg = mix.orange, },
-                        NotifyINFOIcon = { fg = mix.blue, },
-                        NotifyDEBUGIcon = { fg = mix.purple, },
-                        NotifyTRACEIcon = { fg = mix.aqua, },
-
-                        NotifyERRORTitle = { fg = mix.red, },
-                        NotifyWARNTitle = { fg = mix.orange, },
-                        NotifyINFOTitle = { fg = mix.blue, },
-                        NotifyDEBUGTitle = { fg = mix.purple, },
-                        NotifyTRACETitle = { fg = mix.aqua, },
                     },
                 })
             end
