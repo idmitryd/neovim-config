@@ -201,9 +201,7 @@ local setup = function()
             ["<C-d>"] = cmp.mapping.scroll_docs(4),
             -- TODO: potentially fix emmet nonsense
             ["<Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.select_next_item()
-                elseif luasnip.expandable() then
+                if luasnip.expandable() then
                     luasnip.expand()
                 elseif jumpable() then
                     luasnip.jump(1)
