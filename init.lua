@@ -6,15 +6,15 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 end
 
-vim.api.nvim_exec(
-[[
-augroup Packer
-autocmd!
-autocmd BufWritePost init.lua PackerCompile
-augroup end
-]],
-false
-)
+-- vim.api.nvim_exec(
+-- [[
+-- augroup Packer
+-- autocmd!
+-- autocmd BufWritePost init.lua PackerCompile
+-- augroup end
+-- ]],
+-- false
+-- )
 --- }}}2
 -- {{{2 Plugins load and setup
 local use = require('packer').use
@@ -229,7 +229,10 @@ require('packer').startup({
                 'saadparwaiz1/cmp_luasnip',
             },
             -- lua/plugin/cmp
-            config = function() require('plugin.cmp').setup() end,
+            config = function()
+                require('plugin.cmp').setup()
+                vim.b.cmp_toggle_flag = true
+            end,
         }
         -- }}}
         -- {{{3 LSP
@@ -252,6 +255,7 @@ require('packer').startup({
         -- }}}3
         -- {{{3 Tree-sitter
         use 'nvim-treesitter/nvim-treesitter-textobjects'
+        use 'romgrk/nvim-treesitter-context'
         use {
             'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate',

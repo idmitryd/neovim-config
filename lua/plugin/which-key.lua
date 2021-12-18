@@ -167,12 +167,9 @@ local mappings = {
         k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
         C = { "<cmd>Telescope commands<cr>", "Commands" },
         p = { "<cmd>Telescope projects<CR>", "Projects"},
+        s = { "<cmd>Telescope grep_string<CR>", "String under cursor"},
     },
     T = {
-        name = "Treesitter",
-        i = { ":TSConfigInfo<cr>", "Info" },
-    },
-    t = {
         name = "Trouble",
         t = { "<cmd>TroubleToggle<cr>", "Toggle"},
         r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -181,6 +178,10 @@ local mappings = {
         q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
         l = { "<cmd>Trouble loclist<cr>", "LocationList" },
         w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Workspace Diagnostics" },
+    },
+    t = {
+        name = "Toggle",
+        c = { "<cmd>lua require'functions'.toggle_completion()<cr>", "Completion" },
     },
     -- ["<Space>"] = {
     h = {

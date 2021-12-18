@@ -1,4 +1,5 @@
 local setup = function()
+    -- Add parser for norg
     local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
     parser_configs.norg = {
         install_info = {
@@ -29,6 +30,8 @@ local setup = function()
         },
     }
     require('nvim-treesitter-textobjects')
+    require'treesitter-context'.setup({
+    })
     -- vim.api.nvim_exec([[
     --     set foldmethod=expr
     --     set foldexpr=nvim_treesitter#foldexpr()
