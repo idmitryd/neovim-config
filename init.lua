@@ -659,6 +659,7 @@ o.smartcase = true
 o.scrolloff = 8
 o.sidescrolloff = 8
 o.signcolumn = "yes"
+o.showmode = false
 
 -- buffer-local options
 bo.keymap = 'russian-jcukenwin'

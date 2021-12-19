@@ -57,7 +57,7 @@ local setup = function()
                         end
                         return ""
                     end,
-                    color = { fg = '#98be65' },
+                    color = { fg = '#8bba7f' },
                     cond = conditions.hide_in_width,
                 },
                 {
@@ -88,7 +88,7 @@ local setup = function()
                 {
                     'location',
                     cond = nil,
-                }
+                },
             },
             lualine_z = {
                 {
