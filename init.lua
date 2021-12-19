@@ -296,12 +296,26 @@ require('packer').startup({
         use {
             'nvim-telescope/telescope.nvim',
             requires = {
-                'nvim-telescope/telescope-dap.nvim',
                 'nvim-telescope/telescope-project.nvim',
+                {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
             },
             config = function()
-                require('telescope')
-                require('telescope').load_extension('dap')
+                require('telescope').setup {
+                    defaults = {
+                        selection_caret = ' ',
+                        prompt_prefix = " ",
+
+                    },
+                    extentions = {
+                        fzf = {
+                            fuzzy = true,                    -- false will only do exact matching
+                            override_generic_sorter = true,  -- override the generic sorter
+                            override_file_sorter = true,     -- override the file sorter
+                            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                        },
+                    },
+                }
+                require('telescope').load_extension('fzf')
                 require('telescope').load_extension('project')
                 require('telescope').load_extension('projects')
                 require("telescope").load_extension('notify')
@@ -414,7 +428,10 @@ require('packer').startup({
         use {
             "blackcauldron7/surround.nvim",
             config = function()
-                require('surround').setup{load_keymaps=false}
+                -- require('surround').setup{load_keymaps=false}
+                require('surround').setup{}
+                -- It is needed to use 's' character in select mode that snippets use
+                vim.cmd('sunmap s')
             end,
         }
         -- }}}3
@@ -554,6 +571,18 @@ require('packer').startup({
             end,
         }
         -- }}}
+        -- {{{3 UI helpers
+        use {
+            'stevearc/dressing.nvim',
+            config = function()
+                require('dressing').setup({
+                    input = {
+                        insert_only = false,
+                    }
+                })
+            end,
+        }
+        -- }}}
     end,
     config = {
         -- {{{3 Packer config
@@ -605,6 +634,7 @@ g.bufferline = {
     clickable = false,
     letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
     icon_separator_active = '▌',
+    icon_pinned = '車',
     -- icon_separator_inactive = '▌',
     -- icon_close_tab_modified = '●',
 }

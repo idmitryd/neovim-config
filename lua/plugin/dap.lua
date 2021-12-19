@@ -1,22 +1,22 @@
 local breakpoint = {
     text = "",
-    texthl = "LspDiagnosticsSignError",
+    texthl = "DiagnosticError",
     linehl = "",
     numhl = "",
 }
 
 local breakpoint_rejected = {
     text = "",
-    texthl = "LspDiagnosticsSignHint",
+    texthl = "DiagnosticHint",
     linehl = "",
     numhl = "",
 }
 
 local stopped = {
     text = "",
-    texthl = "LspDiagnosticsSignInformation",
-    linehl = "DiagnosticUnderlineInfo",
-    numhl = "LspDiagnosticsSignInformation",
+    texthl = "DiagnosticInfo",
+    linehl = "",
+    numhl = "DiagnosticInfo",
 }
 
 local setup = function()
