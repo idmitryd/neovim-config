@@ -139,10 +139,10 @@ local mappings = {
         k = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Prev Diagnostic", },
         l = { "<cmd>lua vim.lsp.codelens.run()<cr>", "CodeLens Action" },
         r = { "<cmd>:Lspsaga rename<cr>", "Rename" },
-        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Find Document Symbols" },
         S = {
             "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
-            "Workspace Symbols",
+            "Find Workspace Symbols",
         },
         w = { "<cmd>Lspsaga show_line_diagnostics<cr>", "What's wrong?" },
         h = { "<cmd>Lspsaga signature_help<CR>", "Signature Help" },
@@ -150,17 +150,18 @@ local mappings = {
     },
     f = {
         name = "Find",
-        f = { "<cmd>Telescope find_files<CR>", "Find File" },
-        h = { "<cmd>Telescope help_tags<cr>", "Find Help" },
+        f = { "<cmd>Telescope find_files<CR>", "File" },
+        F = { "<cmd>lua require'telescope.builtin'.find_files({" ..
+              "find_command={'find', '-L', '.', '-name', '*' .. vim.fn.expand('<cword>') .. '*'}" ..
+              "})<CR>",
+        "File Under Cursor" },
+        h = { "<cmd>Telescope help_tags<cr>", "Help" },
         M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-        R = { "<cmd>Telescope registers<cr>", "Registers" },
-        t = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Text in current buffer" },
+        t = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Text in Current Buffer" },
         T = { "<cmd>Telescope live_grep<cr>", "Text in CWD" },
-        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-        C = { "<cmd>Telescope commands<cr>", "Commands" },
         p = { "<cmd>Telescope projects<CR>", "Projects"},
-        s = { "<cmd>Telescope grep_string<CR>", "String under cursor"},
+        s = { "<cmd>Telescope grep_string<CR>", "String Under Cursor in CWD"},
     },
     T = {
         name = "Trouble",

@@ -29,6 +29,7 @@ local setup = function()
                 {
                     'branch',
                     cond = conditions.hide_in_width,
+                    -- icon =  '',
                 },
                 {
                     'filename',

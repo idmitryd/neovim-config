@@ -125,33 +125,33 @@ require('packer').startup({
             config = function()
                 vim.g.dashboard_custom_section = {
                     a = {
-                        -- description = { "  Find File          " },
-                        description = { "  Find File" },
+                        description = { "  Find File          " },
+                        -- description = { "  Find File" },
                         command = "Telescope find_files",
                     },
                     b = {
-                        -- description = { "  New File           " },
-                        description = { "  New File" },
+                        description = { "  New File           " },
+                        -- description = { "  New File" },
                         command = ":ene!",
                     },
                     c = {
-                        -- description = { "  Recent Projects    " },
-                        description = { "  Recent Projects" },
+                        description = { "  Recent Projects    " },
+                        -- description = { "  Recent Projects" },
                         command = "Telescope projects",
                     },
                     d = {
-                        -- description = { "  Recently Used Files" },
                         description = { "  Recently Used Files" },
+                        -- description = { "  Recently Used Files" },
                         command = "Telescope oldfiles",
                     },
                     e = {
-                        -- description = { "  Find Word          " },
-                        description = { "  Find Word" },
+                        description = { "  Find Word          " },
+                        -- description = { "  Find Word" },
                         command = "Telescope live_grep",
                     },
                     f = {
-                        -- description = { "  Configuration      " },
-                        description = { "  Configuration" },
+                        description = { "  Configuration      " },
+                        -- description = { "  Configuration" },
                         command = ":e " .. vim.fn.stdpath('config') .. '/init.lua',
                     },
                 }

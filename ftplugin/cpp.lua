@@ -29,6 +29,28 @@ dap.configurations.cpp = {
     program = function()
       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
     end,
+    -- program = function()
+    --     local get_program = function()
+    --         vim.notify('Program 1: ' .. program)
+    --         vim.ui.input({
+    --             prompt = 'Path to executable: ',
+    --             default = vim.fn.getcwd() .. '/',
+    --             completion = 'file',
+    --         },
+    --         function(input)
+    --             print('Im in')
+    --             vim.notify('Program 2: ' .. program)
+    --             program = 'Test call'
+    --             vim.notify('Program 3: ' .. program)
+    --             print(input)
+    --         end
+    --         )
+    --         vim.notify('Program 4: ' .. program)
+    --         vim.notify('Program 5: ' .. program)
+    --     end
+    --     get_program()
+    --     return program
+    -- end,
     cwd = '${workspaceFolder}',
     args = {},
     stopOnEntry = false,
