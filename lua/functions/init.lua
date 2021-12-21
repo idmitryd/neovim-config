@@ -43,7 +43,7 @@ functions.grep_string_current_buffer = function(word)
     if current_word ~= "" then
         current_word = "'" .. current_word
     end
-    vim.cmd("normal i" .. current_word)
+    vim.cmd("normal i" .. current_word .. " ")
     vim.cmd("normal $")
 end
 
