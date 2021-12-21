@@ -32,4 +32,29 @@ functions.toggle_completion = function()
   end
 end
 
+functions.grep_string_current_buffer = function(word)
+    -- require'telescope.builtin'.grep_string({search_dirs = {vim.fn.expand(':%p')}})
+    local current_word = word or vim.fn.expand("<cword>")
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok then
+        telescope.current_buffer_fuzzy_find()
+    end
+    -- Add ' to the current non-empty word for exact-match
+    if current_word ~= "" then
+        current_word = "'" .. current_word
+    end
+    vim.cmd("normal i" .. current_word)
+    vim.cmd("normal $")
+end
+
+functions.find_file = function(file)
+    local file_to_search = file or vim.fn.expand("<cword>")
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok then
+        telescope.find_files({
+            find_command = { "find", "-L", ".", "-name", "*" .. file_to_search .. "*" },
+        })
+    end
+end
+
 return functions

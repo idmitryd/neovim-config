@@ -151,17 +151,20 @@ local mappings = {
     f = {
         name = "Find",
         f = { "<cmd>Telescope find_files<CR>", "File" },
-        F = { "<cmd>lua require'telescope.builtin'.find_files({" ..
-              "find_command={'find', '-L', '.', '-name', '*' .. vim.fn.expand('<cword>') .. '*'}" ..
-              "})<CR>",
-        "File Under Cursor" },
+        F = { "<cmd>lua require'functions'.find_file()<CR>", "File Under Cursor" },
+        -- F = { "<cmd>lua require'telescope.builtin'.find_files({" ..
+        --       "find_command={'find', '-L', '.', '-name', '*' .. vim.fn.expand('<cword>') .. '*'}" ..
+        --       "})<CR>",
+        -- "File Under Cursor" },
         h = { "<cmd>Telescope help_tags<cr>", "Help" },
         M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
         t = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Text in Current Buffer" },
         T = { "<cmd>Telescope live_grep<cr>", "Text in CWD" },
-        p = { "<cmd>Telescope projects<CR>", "Projects"},
-        s = { "<cmd>Telescope grep_string<CR>", "String Under Cursor in CWD"},
+        p = { "<cmd>Telescope projects<CR>", "Projects" },
+        s = {"<cmd>lua require'functions'.grep_string_current_buffer()<CR>",
+        "String Under Cursor in Current Buffer" },
+        S = { "<cmd>Telescope grep_string<CR>", "String Under Cursor in CWD"},
     },
     T = {
         name = "Trouble",
