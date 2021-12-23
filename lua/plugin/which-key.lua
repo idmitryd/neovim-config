@@ -61,9 +61,8 @@ local vmappings = {
     },
 }
 local mappings = {
-    -- ["w"] = { "<cmd>w!<CR>", "Save" },
-    -- ["q"] = { "<cmd>q!<CR>", "Quit" },
-    -- ["/"] = { "<cmd>lua require('Comment').toggle()<CR>", "Comment" },
+    ["w"] = { "<cmd>w!<CR>", "Save" },
+    ["q"] = { "<cmd>q!<CR>", "Quit" },
     ["c"] = { "<cmd>BufferClose!<CR>", "Close Buffer" },
     ["H"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
     ["e"] = { "<cmd>NvimTreeToggle<CR>", "Explorer" },
