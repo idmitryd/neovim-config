@@ -158,12 +158,18 @@ local mappings = {
         h = { "<cmd>Telescope help_tags<cr>", "Help" },
         M = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         r = { "<cmd>Telescope oldfiles<cr>", "Open Recent File" },
-        t = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Text in Current Buffer" },
+        -- t = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Text in Current Buffer" },
+        t = { "<cmd>lua require'functions'.current_buffer_fuzzy_find()<CR>", "Text in Current Buffer" },
         T = { "<cmd>Telescope live_grep<cr>", "Text in CWD" },
         p = { "<cmd>Telescope projects<CR>", "Projects" },
         s = {"<cmd>lua require'functions'.grep_string_current_buffer()<CR>",
         "String Under Cursor in Current Buffer" },
         S = { "<cmd>Telescope grep_string<CR>", "String Under Cursor in CWD"},
+        l = { "<cmd>Telescope lsp_document_symbols<cr>", "LSP Document Symbols" },
+        L = {
+            "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
+            "LSP Workspace Symbols",
+        },
     },
     T = {
         name = "Trouble",
@@ -178,6 +184,7 @@ local mappings = {
     t = {
         name = "Toggle",
         c = { "<cmd>lua require'functions'.toggle_completion()<cr>", "Completion" },
+        t = { "<cmd>lua require'functions'.float_edit(\"~/.todo.md\")<cr>", "TODO tasks" },
     },
     -- ["<Space>"] = {
     h = {

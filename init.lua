@@ -24,6 +24,36 @@ require('packer').startup({
         use 'wbthomason/packer.nvim'
         -- }}}3
         -- {{{3 Colorschemes
+        -- use {
+        --     '~/.config/nvim/lua/my_theme/',
+        --     config = function()
+        --         require'gruvqueen'.setup()
+        --     end,
+        -- }
+        use {
+            "junegunn/seoul256.vim"
+        }
+        use {
+            "mcchrish/zenbones.nvim",
+            -- Optionally install Lush. Allows for more configuration or extending the colorscheme
+            -- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+            -- In Vim, compat mode is turned on as Lush only works in Neovim.
+            requires = "rktjmp/lush.nvim"
+        }
+        use {
+            "rebelot/kanagawa.nvim",
+            -- config = function()
+                --     require'kanagawa'.setup()
+                --     vim.cmd("colorscheme kanagawa")
+                -- end,
+            }
+        use {
+            "catppuccin/nvim",
+            as = "catppuccin",
+        }
+        use {
+            "lukas-reineke/onedark.nvim",
+        }
         use {
             'idmitryd/gruvqueen',
             config = function()
@@ -69,6 +99,8 @@ require('packer').startup({
                 -- }
 
                 require("gruvqueen").setup({
+                    palette = {
+                    },
                     config = {
                         disable_bold = false,
                         italic_comments = true,
@@ -89,6 +121,7 @@ require('packer').startup({
                         TabLineFill = {fg = c.fg1, bg = c.bg0, style = "NONE", },
                     },
                     plugins = {
+                        TreesitterContext = { bg = c.bg1 },
                     },
                 })
             end
@@ -389,14 +422,23 @@ require('packer').startup({
         use {
             "lukas-reineke/indent-blankline.nvim",
             event = "BufRead",
-            setup = function()
-                vim.g.indentLine_enabled = 1
-                vim.g.indent_blankline_char = "▏"
-                vim.g.indent_blankline_filetype_exclude = {"help", "terminal", "dashboard"}
-                vim.g.indent_blankline_buftype_exclude = {"terminal"}
-                vim.g.indent_blankline_show_trailing_blankline_indent = false
-                vim.g.indent_blankline_show_first_indent_level = false
-            end
+            -- setup = function()
+            --     vim.g.indentLine_enabled = 1
+            --     vim.g.indent_blankline_char = "▏"
+            --     vim.g.indent_blankline_filetype_exclude = {"help", "terminal", "dashboard"}
+            --     vim.g.indent_blankline_buftype_exclude = {"terminal"}
+            --     vim.g.indent_blankline_show_trailing_blankline_indent = false
+            --     vim.g.indent_blankline_show_first_indent_level = false
+            -- end,
+            config = function()
+                require("indent_blankline").setup {
+                    char = "▏",
+                    filetype_exclude = {"help", "terminal", "dashboard"},
+                    buftype_exclude = {"terminal"},
+                    show_trailing_blankline_indent = false,
+                    show_first_indent_level = false,
+                }
+            end,
         }
         -- }}}3
         -- {{{3 LaTeX support
@@ -405,7 +447,7 @@ require('packer').startup({
             config = function()
                 vim.g.vimtex_view_general_viewer = 'okular'
                 vim.g.vimtex_view_general_options = '--unique file:@pdf\\#src:@line@tex'
-                vim.g.vimtex_view_general_options_latexmk = '--unique'
+                -- vim.g.vimtex_view_general_options_latexmk = '--unique'
                 vim.g.vimtex_syntax_conceal_disable = 1
                 vim.g.vimtex_quickfix_enabled = 0
             end,
@@ -431,7 +473,7 @@ require('packer').startup({
                 -- require('surround').setup{load_keymaps=false}
                 require('surround').setup{}
                 -- It is needed to use 's' character in select mode that snippets use
-                vim.cmd('sunmap s')
+                -- vim.cmd('sunmap s')
             end,
         }
         -- }}}3

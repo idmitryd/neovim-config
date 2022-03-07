@@ -1,4 +1,4 @@
-vim.cmd("setlocal shiftwidth=2 tabstop=2 expandtab")
+vim.cmd("setlocal shiftwidth=2 tabstop=2 expandtab cinoptions+=g0")
 vim.cmd("setlocal commentstring=//\\ %s")
 
 -- Need to set specific indentation for GNA project

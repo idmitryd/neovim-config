@@ -29,6 +29,11 @@ local config = {
             dotfiles = true,
             custom = { ".git", "node_modules", ".cache" },
         },
+        actions = {
+            open_file = {
+                quit_on_open = false,
+            }
+        },
     },
     show_icons = {
         git = 1,
@@ -37,7 +42,6 @@ local config = {
         folder_arrows = 1,
         tree_width = 30,
     },
-    quit_on_open = 0,
     git_hl = 1,
     root_folder_modifier = ":t",
     allow_resize = 1,

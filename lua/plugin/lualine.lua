@@ -13,7 +13,8 @@ local setup = function()
             icons_enabled=true,
             theme='gruvqueen-medium',
             section_separators='',
-            component_separators='',
+            -- component_separators='',
+            component_separators = '',
             disabled_filetypes = {"dashboard", "NvimTree", "Outline"},
         },
         sections = {

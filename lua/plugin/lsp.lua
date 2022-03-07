@@ -83,10 +83,12 @@ local setup = function()
                 local config = make_config()
                 if server.name == 'clangd' then
                     config.filetypes = { 'c', 'cpp', }
-                    config.cmd = server:get_default_options().cmd
-                    config.cmd[1] = config.cmd[1] .. "_13.0.0/bin/clangd"
-                    table.insert(config.cmd, "--fallback-style=Google")
-                    table.insert(config.cmd, "--background-index")
+                    config.cmd = {"clangd-12"}
+                    -- config.cmd = server:get_default_options().cmd
+                    -- config.cmd[1] = config.cmd[1] .. "_13.0.0/bin/clangd"
+                    -- table.insert(config.cmd, "--fallback-style=google")
+                    -- -- table.insert(config.cmd, "--fallback-style='{ BasedOnStyle: Google, IndentWidth: 10 }'")
+                    -- table.insert(config.cmd, "--background-index")
                 end
                 if server.name == 'sumneko_lua' then
                     config.settings = {
@@ -100,7 +102,9 @@ local setup = function()
                 server:setup(config)
             end
 
+            -- local signs = { Error = "ⓧ ", Warn = "⚠ ", Hint = " ", Info = " " }
             local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+            -- local signs = { Error = "E ", Warn = "W ", Hint = "H ", Info = "I " }
             for type, icon in pairs(signs) do
                 local hl = "DiagnosticSign" .. type
                 vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })

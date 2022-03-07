@@ -33,11 +33,16 @@ functions.toggle_completion = function()
 end
 
 functions.grep_string_current_buffer = function(word)
-    -- require'telescope.builtin'.grep_string({search_dirs = {vim.fn.expand(':%p')}})
     local current_word = word or vim.fn.expand("<cword>")
     local ok, telescope = pcall(require, "telescope.builtin")
     if ok then
-        telescope.current_buffer_fuzzy_find()
+        telescope.current_buffer_fuzzy_find(
+        {
+            tiebreak = function(current_entry, existing_entry, prompt)
+                return false
+            end,
+        }
+        )
     end
     -- Add ' to the current non-empty word for exact-match
     if current_word ~= "" then
@@ -45,6 +50,19 @@ functions.grep_string_current_buffer = function(word)
     end
     vim.cmd("normal i" .. current_word .. " ")
     vim.cmd("normal $")
+end
+
+functions.current_buffer_fuzzy_find = function()
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if ok then
+        telescope.current_buffer_fuzzy_find(
+        {
+            tiebreak = function(current_entry, existing_entry, prompt)
+                return false
+            end,
+        }
+        )
+    end
 end
 
 functions.find_file = function(file)
@@ -55,6 +73,23 @@ functions.find_file = function(file)
             find_command = { "find", "-L", ".", "-name", "*" .. file_to_search .. "*" },
         })
     end
+end
+
+functions.float_edit = function(file)
+    local ui = vim.api.nvim_list_uis()[1]
+    local width = math.floor(ui.width/2 + 0.5)
+    local height = math.floor(ui.height/1.5 + 0.5)
+    local win_cfg = {
+        relative='editor',
+        width = width,
+        height = height,
+        col = (ui.width/2) - (width/2),
+        row = (ui.height/2) - (height/2),
+        border = 'rounded',
+    }
+    vim.api.nvim_open_win(0, true, win_cfg)
+    vim.api.nvim_command("e " .. file)
+    vim.cmd("noremap <buffer> q :w<CR>:bd<CR>")
 end
 
 return functions
