@@ -468,7 +468,7 @@ require('packer').startup({
         -- }}}3
         -- {{{3 Surrounding
         use {
-            "blackcauldron7/surround.nvim",
+            "ur4ltz/surround.nvim",
             config = function()
                 -- require('surround').setup{load_keymaps=false}
                 require('surround').setup{}
