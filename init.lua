@@ -130,6 +130,7 @@ require('packer').startup({
         -- {{{3 Status line
         use {
             'hoob3rt/lualine.nvim',
+            after = 'gruvqueen',
             -- lua/plugin/lualine
             config = function() require('plugin.lualine').setup() end,
         }
@@ -260,6 +261,7 @@ require('packer').startup({
                 'hrsh7th/cmp-nvim-lsp',
                 'hrsh7th/cmp-nvim-lua',
                 'saadparwaiz1/cmp_luasnip',
+                'kdheepak/cmp-latex-symbols'
             },
             -- lua/plugin/cmp
             config = function()
@@ -417,6 +419,10 @@ require('packer').startup({
             event = "BufRead",
             config = function() require("hop").setup() end,
         }
+        -- use {
+        --     "ggandor/leap.nvim",
+        --     config = function() require("leap").setup{} end,
+        -- }
         -- }}}3
         -- {{{3 Identation guides
         use {
@@ -512,6 +518,7 @@ require('packer').startup({
             requires = {
                 'nvim-lua/plenary.nvim',
             },
+            -- after = 'gruvqueen',
             event = "BufRead",
             config = function()
                 require('gitsigns').setup({
@@ -648,15 +655,15 @@ local map = vim.api.nvim_set_keymap
 -- Need to make nvim to recognize .fish files
 -- vim.cmd('au! BufRead,BufNewFile *.fish set filetype=fish')
 -- Need to setlocal foldmethod=marker for init.lua
-vim.api.nvim_exec(
-[[
-augroup config
-autocmd!
-autocmd BufEnter init.lua setlocal foldmethod=marker
-augroup end
-]],
-false
-)
+-- vim.api.nvim_exec(
+-- [[
+-- augroup config
+-- autocmd!
+-- autocmd BufEnter init.lua setlocal foldmethod=marker
+-- augroup end
+-- ]],
+-- false
+-- )
 -- }}}2
 -- {{{2 Set colorsheme
 -- }}}2
@@ -736,3 +743,5 @@ map('c', '%%', "getcmdtype() == ':' ? expand('%:h').'/' : '%%'", { expr = true }
 map('t', '<Esc>', '<C-\\><C-n>', options)
 -- }}}2
 -- }}}
+
+-- vim: foldmethod=marker

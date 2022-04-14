@@ -1,4 +1,17 @@
 local setup = function()
+    local get_color = require'lualine.utils.utils'.extract_highlight_colors
+
+    local diff_source = function()
+        local gitsigns = vim.b.gitsigns_status_dict
+        if gitsigns then
+            return {
+                added = gitsigns.added,
+                modified = gitsigns.changed,
+                removed = gitsigns.removed
+            }
+        end
+    end
+
     local window_width_limit = 80
     local conditions = {
         buffer_not_empty = function()
@@ -28,7 +41,8 @@ local setup = function()
             },
             lualine_b = {
                 {
-                    'branch',
+                    -- 'branch',
+                    'b:gitsigns_head',
                     cond = conditions.hide_in_width,
                     -- icon =  '',
                 },
@@ -40,8 +54,13 @@ local setup = function()
             lualine_c = {
                 {
                     'diff',
+                    diff_color = {
+                        added = { fg = get_color('GitSignsAdd', 'fg') },
+                        modified = { fg = get_color('GitSignsChange', 'fg') },
+                        removed = { fg = get_color('GitSignsDelete', 'fg') },
+                    },
+                    source = diff_source,
                     symbols = { added = "  ", modified = "柳", removed = " " },
-                    cond = nil
                 },
             },
             lualine_x = {
